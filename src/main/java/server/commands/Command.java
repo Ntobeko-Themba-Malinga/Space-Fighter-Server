@@ -1,7 +1,7 @@
 package server.commands;
 
-import world.World;
+import world.IWorld;
 
 public abstract class Command {
-    public abstract boolean execute(World world);
+    public abstract boolean execute(IWorld world);
 }

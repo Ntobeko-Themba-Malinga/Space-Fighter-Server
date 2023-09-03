@@ -5,14 +5,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.websocket.WsMessageContext;
 import server.communication.response.ResponseFactory;
-import world.World;
+import world.IWorld;
 
 public class ServerHandler {
     private ObjectMapper mapper;
-    private World world;
+    private IWorld world;
     private String client;
 
-    public ServerHandler(World world) {
+    public ServerHandler(IWorld world) {
         this.mapper = new ObjectMapper();
         this.world = world;
     }
