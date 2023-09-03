@@ -61,10 +61,18 @@ public abstract class GameObject {
 
     }
 
+    /**
+     * Returns the top left corner position of a game object.
+     * @return top left corner position instance
+     */
     public Position getTopLeftCorner() {
         return topLeftCorner;
     }
 
+    /**
+     * Returns the bottom right corner position of a game object.
+     * @return bottom right corner position instance
+     */
     public Position getBottomRightCorner() {
         return bottomRightCorner;
     }
