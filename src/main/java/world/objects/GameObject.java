@@ -1,8 +1,9 @@
 package world.objects;
 
 public abstract class GameObject {
-    private final Position topLeftCorner;
-    private final Position bottomRightCorner;
+    private Position topLeftCorner;
+    private Position bottomRightCorner;
+    private Position center;
 
     /**
      * Makes sure all games objects have top left corner and bottom right corner positions
@@ -12,6 +13,7 @@ public abstract class GameObject {
     public GameObject(Position topLeftCorner, Position bottomRightCorner) {
         this.topLeftCorner = topLeftCorner;
         this.bottomRightCorner = bottomRightCorner;
+        calculateCenter();
     }
 
     /**
@@ -61,6 +63,12 @@ public abstract class GameObject {
 
     }
 
+    private void calculateCenter() {
+        int centerX = (this.bottomRightCorner.getX() - this.topLeftCorner.getX()) / 2;
+        int centerY = (this.topLeftCorner.getY() - this.bottomRightCorner.getY()) / 2;
+        this.center = new Position(centerX, centerX);
+    }
+
     /**
      * Returns the top left corner position of a game object.
      * @return top left corner position instance
@@ -75,5 +83,19 @@ public abstract class GameObject {
      */
     public Position getBottomRightCorner() {
         return bottomRightCorner;
+    }
+
+    public void setTopLeftCorner(Position topLeftCorner) {
+        this.topLeftCorner = topLeftCorner;
+        calculateCenter();
+    }
+
+    public void setBottomRightCorner(Position bottomRightCorner) {
+        this.bottomRightCorner = bottomRightCorner;
+        calculateCenter();
+    }
+
+    public Position getCenter() {
+        return center;
     }
 }

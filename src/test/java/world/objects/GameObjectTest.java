@@ -12,6 +12,7 @@ class GameObjectTest {
 
         assertEquals(new Position(0, 2), gameObject.getTopLeftCorner());
         assertEquals(new Position(2, 0), gameObject.getBottomRightCorner());
+        assertEquals(new Position(1, 1), gameObject.getCenter());
     }
 
     @Test

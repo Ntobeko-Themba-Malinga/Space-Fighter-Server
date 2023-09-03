@@ -6,6 +6,12 @@ import world.objects.robot.Robot;
 import java.util.Map;
 
 public interface IWorld {
+    public enum Direction {
+        NORTH,
+        SOUTH,
+        WEST,
+        EAST
+    }
 
     public enum PositionUpdate {
         ALLOWED,
