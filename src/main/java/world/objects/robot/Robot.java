@@ -18,12 +18,25 @@ public abstract class Robot extends GameObject {
         this.status = RobotState.NORMAL;
     }
 
+    private IWorld.PositionUpdate northPositionUpdate(IWorld world, int numSteps) {
+        Position topLeftCorner = this.getTopLeftCorner();
+        Position bottomRightCorner = this.getBottomRightCorner();
+
+        if (numSteps > 0) {
+
+        }
+        return IWorld.PositionUpdate.ALLOWED;
+    }
+
     /**
      * Updates the position of the robot
      * @param numberSteps
      */
-    public void updatePosition(IWorld world, int numberSteps) {
+    public IWorld.PositionUpdate updatePosition(IWorld world, int numberSteps) {
+        if (IWorld.Direction.NORTH.equals(this.direction)) {
 
+        }
+        return null;
     }
 
     /**
