@@ -2,9 +2,11 @@ package world.objects.robot;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import util.WorldAllowed;
+import util.WorldNotAllowed;
 import world.IWorld;
-import world.World;
 import world.objects.Position;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,7 +15,7 @@ class RobotTest {
 
     @BeforeEach
     void setUp() {
-        this.world = new World();
+        this.world = new WorldAllowed();
     }
 
     @Test
@@ -26,6 +28,16 @@ class RobotTest {
     }
 
     @Test
+    void updatePositionNorthNotAllowed() {
+        this.world = new WorldNotAllowed();
+        Robot robot = new TankRobot(new Position(0, 6), new Position(6, 0), IWorld.Direction.NORTH);
+
+        robot.updatePosition(this.world, 2);
+        assertEquals(new Position(0, 6), robot.getTopLeftCorner());
+        assertEquals(new Position(6, 0), robot.getBottomRightCorner());
+    }
+
+    @Test
     void updatePositionSouth() {
         Robot robot = new TankRobot(new Position(0, 6), new Position(6, 0), IWorld.Direction.SOUTH);
 
@@ -35,8 +47,18 @@ class RobotTest {
     }
 
     @Test
+    void updatePositionSouthNotAllowed() {
+        this.world = new WorldNotAllowed();
+        Robot robot = new TankRobot(new Position(0, 6), new Position(6, 0), IWorld.Direction.SOUTH);
+
+        robot.updatePosition(this.world, 2);
+        assertEquals(new Position(0, 6), robot.getTopLeftCorner());
+        assertEquals(new Position(6, 0), robot.getBottomRightCorner());
+    }
+
+    @Test
     void updatePositionWEST() {
-        Robot robot = new TankRobot(new Position(0, 6), new Position(6, 0), IWorld.Direction.NORTH);
+        Robot robot = new TankRobot(new Position(0, 6), new Position(6, 0), IWorld.Direction.WEST);
 
         robot.updatePosition(this.world, 2);
         assertEquals(new Position(-2, 6), robot.getTopLeftCorner());
@@ -44,12 +66,32 @@ class RobotTest {
     }
 
     @Test
+    void updatePositionWESTNotAllowed() {
+        this.world = new WorldNotAllowed();
+        Robot robot = new TankRobot(new Position(0, 6), new Position(6, 0), IWorld.Direction.WEST);
+
+        robot.updatePosition(this.world, 2);
+        assertEquals(new Position(0, 6), robot.getTopLeftCorner());
+        assertEquals(new Position(6, 0), robot.getBottomRightCorner());
+    }
+
+    @Test
     void updatePositionEAST() {
-        Robot robot = new TankRobot(new Position(0, 6), new Position(6, 0), IWorld.Direction.NORTH);
+        Robot robot = new TankRobot(new Position(0, 6), new Position(6, 0), IWorld.Direction.EAST);
 
         robot.updatePosition(this.world, 2);
         assertEquals(new Position(2, 6), robot.getTopLeftCorner());
         assertEquals(new Position(8, 0), robot.getBottomRightCorner());
+    }
+
+    @Test
+    void updatePositionEASTNotAllowed() {
+        this.world = new WorldNotAllowed();
+        Robot robot = new TankRobot(new Position(0, 6), new Position(6, 0), IWorld.Direction.EAST);
+
+        robot.updatePosition(this.world, 2);
+        assertEquals(new Position(0, 6), robot.getTopLeftCorner());
+        assertEquals(new Position(6, 0), robot.getBottomRightCorner());
     }
 
     @Test

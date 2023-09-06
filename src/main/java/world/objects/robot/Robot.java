@@ -18,12 +18,33 @@ public abstract class Robot extends GameObject {
         this.status = RobotState.NORMAL;
     }
 
-    private IWorld.PositionUpdate northPositionUpdate(IWorld world, int numSteps) {
+    private IWorld.PositionUpdate posUpdate(IWorld world, int numSteps, boolean axis) {
         Position topLeftCorner = this.getTopLeftCorner();
         Position bottomRightCorner = this.getBottomRightCorner();
+        Position center = this.getCenter();
 
-        if (numSteps > 0) {
+        int topX = topLeftCorner.getX();
+        int topY = topLeftCorner.getY();
+        int bottomX = bottomRightCorner.getX();
+        int bottomY = bottomRightCorner.getY();
+        int centerX = center.getX();
+        int centerY = center.getY();
 
+        Position start = new Position(centerX, centerY);
+        Position end = (axis) ? new Position(centerX, centerY + numSteps) :  new Position(centerX + numSteps, centerY);
+
+        IWorld.PositionUpdate pathAllowed = world.isPathAllowed(this, start, end);
+        IWorld.PositionUpdate posAllowed = world.isPositionAllowed(end);
+
+        if (!IWorld.PositionUpdate.ALLOWED.equals(pathAllowed)) return pathAllowed;
+        if (!IWorld.PositionUpdate.ALLOWED.equals(posAllowed)) return posAllowed;
+
+        if (axis) {
+            this.setTopLeftCorner(new Position(topX, topY + numSteps));
+            this.setBottomRightCorner(new Position(bottomX, bottomY + numSteps));
+        } else {
+            this.setTopLeftCorner(new Position(topX + numSteps, topY));
+            this.setBottomRightCorner(new Position(bottomX + numSteps, bottomY));
         }
         return IWorld.PositionUpdate.ALLOWED;
     }
@@ -34,9 +55,14 @@ public abstract class Robot extends GameObject {
      */
     public IWorld.PositionUpdate updatePosition(IWorld world, int numberSteps) {
         if (IWorld.Direction.NORTH.equals(this.direction)) {
-
+            return posUpdate(world, numberSteps, true);
+        } else if (IWorld.Direction.SOUTH.equals(this.direction)) {
+            return posUpdate(world, -numberSteps, true);
+        } else if (IWorld.Direction.EAST.equals(this.direction)) {
+            return posUpdate(world, numberSteps, false);
+        } else {
+            return posUpdate(world, -numberSteps, false);
         }
-        return null;
     }
 
     /**
