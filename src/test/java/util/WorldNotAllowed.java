@@ -36,4 +36,19 @@ public class WorldNotAllowed implements IWorld {
     public Map<String, Robot> getRobots() {
         return null;
     }
+
+    @Override
+    public void setRobots(Map<String, Robot> robots) {
+
+    }
+
+    @Override
+    public Position getTopLeftCorner() {
+        return null;
+    }
+
+    @Override
+    public Position getBottomRightCorner() {
+        return null;
+    }
 }

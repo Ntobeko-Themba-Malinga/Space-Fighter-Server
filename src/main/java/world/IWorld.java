@@ -21,6 +21,11 @@ public interface IWorld {
         WORLD_FULL
     }
 
+    /**
+     * Checks if a position in the world is already occupied.
+     * @param pos The position to check.
+     * @return true if position is already taken else false.
+     */
     public PositionUpdate isPositionAllowed(Position pos);
 
     public PositionUpdate isPathAllowed(Robot robot, Position pos1, Position pos2);
@@ -32,4 +37,10 @@ public interface IWorld {
     public boolean isRobotExist(String name);
 
     public Map<String, Robot> getRobots();
+
+    public void setRobots(Map<String, Robot> robots);
+
+    public Position getTopLeftCorner();
+
+    public Position getBottomRightCorner();
 }

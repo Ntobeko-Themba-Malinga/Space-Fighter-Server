@@ -18,6 +18,22 @@ public class Position {
         return y;
     }
 
+    /**
+     * Checks if the instance of this class x and y coordinates
+     * are within a box constraint
+     * @param topLeftCorner The top left corner of the box.
+     * @param bottomRightCorner The bottom right corner of the box.
+     * @return true if it is else false.
+     */
+    public boolean isIn(Position topLeftCorner, Position bottomRightCorner) {
+        int topX = topLeftCorner.getX();
+        int topY = topLeftCorner.getY();
+        int bottomX = bottomRightCorner.getX();
+        int bottomY = bottomRightCorner.getY();
+        return (topX < this.x && this.x < bottomX)
+                && (bottomY < this.y && this.y < topY);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

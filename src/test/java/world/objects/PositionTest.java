@@ -15,6 +15,15 @@ class PositionTest {
     }
 
     @Test
+    void isIn() {
+        Position pos = new Position(1, 2);
+        Position pos2 = new Position(1000, 0);
+
+        assertTrue(pos.isIn(new Position(-100, 100), new Position(100, -100)));
+        assertFalse(pos2.isIn(new Position(-100, 100), new Position(100, -100)));
+    }
+
+    @Test
     void equalsTrue() {
         Position pos1 = new Position(0, 1);
         Position pos2 = new Position(0, 1);
