@@ -59,7 +59,18 @@ class WorldTest {
     }
 
     @Test
-    void removeRobot() {
+    void removeRobotTrue() {
+        assertEquals(1, this.world.getRobots().values().size());
+        boolean results = this.world.removeRobot("TestCrashDummy");
+        assertTrue(results);
+        assertEquals(0, this.world.getRobots().values().size());
+    }
 
+    @Test
+    void removeRobotFalse() {
+        assertEquals(1, this.world.getRobots().values().size());
+        boolean results = this.world.removeRobot("TestCrashDummyNotExist");
+        assertFalse(results);
+        assertEquals(1, this.world.getRobots().values().size());
     }
 }

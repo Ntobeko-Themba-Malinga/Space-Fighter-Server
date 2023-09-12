@@ -102,6 +102,10 @@ public class World implements IWorld {
 
     @Override
     public boolean removeRobot(String robotName) {
+        if (this.robots.keySet().contains(robotName)) {
+            this.robots.remove(robotName);
+            return true;
+        }
         return false;
     }
 
