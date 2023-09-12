@@ -30,9 +30,9 @@ public interface IWorld {
 
     public PositionUpdate isPathAllowed(Robot robot, Position pos1, Position pos2);
 
-    public boolean addRobot(Robot robot);
+    public boolean addRobot(String robotName, Robot robot);
 
-    public boolean removeRobot(Robot robot);
+    public boolean removeRobot(String robotName);
 
     public boolean isRobotExist(String name);
 

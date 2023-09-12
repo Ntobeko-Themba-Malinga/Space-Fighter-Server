@@ -18,12 +18,12 @@ public class WorldNotAllowed implements IWorld {
     }
 
     @Override
-    public boolean addRobot(Robot robot) {
+    public boolean addRobot(String robotName, Robot robot) {
         return false;
     }
 
     @Override
-    public boolean removeRobot(Robot robot) {
+    public boolean removeRobot(String robotName) {
         return false;
     }
 

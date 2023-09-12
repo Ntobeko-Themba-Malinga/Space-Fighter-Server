@@ -37,4 +37,29 @@ class WorldTest {
         assertEquals(IWorld.PositionUpdate.OBSTRUCTED_ASTEROID, this.world.isPositionAllowed(new Position(0, 0)));
         assertEquals(IWorld.PositionUpdate.OUTSIDE_WORLD, this.world.isPositionAllowed(new Position(1000, 0)));
     }
+
+    @Test
+    void addRobotTrue() {
+        Robot robot = new TankRobot(new Position(-19, -19), new Position(-5, -20), IWorld.Direction.SOUTH);
+
+        assertEquals(1, this.world.getRobots().values().size());
+        boolean results = this.world.addRobot("TestCrashDummy2", robot);
+        assertTrue(results);
+        assertEquals(2, this.world.getRobots().values().size());
+    }
+
+    @Test
+    void addRobotFalse() {
+        Robot robot = new TankRobot(new Position(-19, -19), new Position(-5, -20), IWorld.Direction.SOUTH);
+
+        assertEquals(1, this.world.getRobots().values().size());
+        boolean results = this.world.addRobot("TestCrashDummy", robot);
+        assertFalse(results);
+        assertEquals(1, this.world.getRobots().values().size());
+    }
+
+    @Test
+    void removeRobot() {
+
+    }
 }
