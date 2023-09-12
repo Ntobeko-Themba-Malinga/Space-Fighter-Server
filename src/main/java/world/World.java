@@ -126,11 +126,11 @@ public class World implements IWorld {
 
     @Override
     public Position getTopLeftCorner() {
-        return null;
+        return this.topLeftCorner;
     }
 
     @Override
     public Position getBottomRightCorner() {
-        return null;
+        return this.bottomRightCorner;
     }
 }
