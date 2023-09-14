@@ -5,12 +5,15 @@ import world.objects.GameObject;
 import world.objects.Position;
 
 public abstract class Robot extends GameObject {
-    private IWorld.Direction direction;
-    private RobotState status;
     private int maxShots;
+    private int maxShield;
     private int bulletTravelDistance;
     private int reloadTime;
+
+    private IWorld.Direction direction;
+    private RobotState status;
     private int shield;
+    private int shots;
 
     public Robot(Position topLeftCorner, Position bottomRightCorner, IWorld.Direction direction) {
         super(topLeftCorner, bottomRightCorner);
@@ -51,7 +54,7 @@ public abstract class Robot extends GameObject {
 
     /**
      * Updates the position of the robot
-     * @param numberSteps
+     * @param numberSteps The number of steps to move the robot by.
      */
     public IWorld.PositionUpdate updatePosition(IWorld world, int numberSteps) {
         if (IWorld.Direction.NORTH.equals(this.direction)) {
@@ -87,39 +90,78 @@ public abstract class Robot extends GameObject {
         }
     }
 
-    public IWorld.Direction getDirection() {
-        return direction;
+    /**
+     * Decreases the robot's number of shots when it shoots.
+     * @return true if it is not out of bullets.
+     */
+    public boolean fire() {
+        if (this.shots > 0) {
+            this.shots--;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean takeDamage(int amountOfDamage) {
+        this.shield -= amountOfDamage;
+        if (this.shield < 0) {
+            this.setStatus(RobotState.DEAD);
+            return false;
+        }
+        return true;
     }
 
     public int getMaxShots() {
         return maxShots;
     }
 
+    protected void setMaxShots(int maxShots) {
+        this.maxShots = maxShots;
+        this.shots = maxShots;
+    }
+
+    public int getMaxShield() {
+        return maxShield;
+    }
+
+    protected void setMaxShield(int maxShield) {
+        this.maxShield = maxShield;
+        this.shield = maxShield;
+    }
+
     public int getBulletTravelDistance() {
         return bulletTravelDistance;
     }
 
-    public void setBulletTravelDistance(int bulletTravelDistance) {
+    protected void setBulletTravelDistance(int bulletTravelDistance) {
         this.bulletTravelDistance = bulletTravelDistance;
-    }
-
-    public void setMaxShots(int maxShots) {
-        this.maxShots = maxShots;
     }
 
     public int getReloadTime() {
         return reloadTime;
     }
 
-    public void setReloadTime(int reloadTime) {
+    protected void setReloadTime(int reloadTime) {
         this.reloadTime = reloadTime;
+    }
+
+    public IWorld.Direction getDirection() {
+        return direction;
+    }
+
+    public RobotState getStatus() {
+        return status;
+    }
+
+    public void setStatus(RobotState status) {
+        this.status = status;
     }
 
     public int getShield() {
         return shield;
     }
 
-    public void setShield(int shield) {
-        this.shield = shield;
+    public int getShots() {
+        return shots;
     }
 }

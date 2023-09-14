@@ -109,4 +109,28 @@ class RobotTest {
         robot.updateDirection(false);
         assertEquals(IWorld.Direction.WEST, robot.getDirection());
     }
+
+    @Test
+    void fire() {
+        Robot robot = new TankRobot(new Position(0, 6), new Position(6, 0), IWorld.Direction.EAST);
+
+        assertEquals(3, robot.getShots());
+        assertTrue(robot.fire());
+        assertEquals(2, robot.getShots());
+        robot.fire();
+        robot.fire();
+        assertFalse(robot.fire());
+        assertEquals(0, robot.getShots());
+    }
+
+    @Test
+    void takeDamage() {
+        Robot robot = new TankRobot(new Position(0, 6), new Position(6, 0), IWorld.Direction.SOUTH);
+
+        assertEquals(10, robot.getShield());
+        assertTrue(robot.takeDamage(5));
+        assertEquals(5, robot.getShield());
+        assertFalse(robot.takeDamage(10));
+        assertEquals(RobotState.DEAD, robot.getStatus());
+    }
 }
