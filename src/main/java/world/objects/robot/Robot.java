@@ -102,6 +102,12 @@ public abstract class Robot extends GameObject {
         return false;
     }
 
+    /**
+     * Reduces the robot's shield when it takes damage.
+     * @param amountOfDamage The amount o
+     *
+     * @return true if robot is still alive else false
+     */
     public boolean takeDamage(int amountOfDamage) {
         this.shield -= amountOfDamage;
         if (this.shield < 0) {

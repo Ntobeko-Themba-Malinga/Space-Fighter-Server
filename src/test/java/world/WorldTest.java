@@ -73,4 +73,10 @@ class WorldTest {
         assertFalse(results);
         assertEquals(1, this.world.getRobots().values().size());
     }
+
+    @Test
+    void isRobotExists() {
+        assertTrue(this.world.isRobotExist("TestCrashDummy"));
+        assertFalse(this.world.isRobotExist("TestCrashDummy2"));
+    }
 }

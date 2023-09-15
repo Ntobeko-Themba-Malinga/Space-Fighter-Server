@@ -111,6 +111,10 @@ public class World implements IWorld {
 
     @Override
     public boolean isRobotExist(String name) {
+        for (String robot : robots.keySet()) {
+            if (robot.equalsIgnoreCase(name))
+                return true;
+        }
         return false;
     }
 
