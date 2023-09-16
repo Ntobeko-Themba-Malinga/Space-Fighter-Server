@@ -7,9 +7,6 @@ public class Server {
 
     public Server(ServerHandler serverHandler) {
         this.server = Javalin.create();
-        this.server.ws("", ws -> {
-            ws.onMessage(context -> serverHandler.handleCommand(context));
-        });
     }
 
     /**

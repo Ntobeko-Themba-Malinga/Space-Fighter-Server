@@ -1,7 +1,6 @@
 package world;
 
 import world.maze.IMaze;
-import world.maze.SimpleMaze;
 import world.objects.Asteroid;
 import world.objects.Position;
 import world.objects.robot.Robot;
@@ -65,6 +64,11 @@ public class World implements IWorld {
         return (topX < posX && posX < bottomX) && (bottomY < posY && posY < topY);
     }
 
+    /**
+     * Checks if there isn't a game object that is blocking a position.
+     * @param pos The position to check.
+     * @return ALLOWED enum if the position is allowed else an appropriate enum.
+     */
     @Override
     public PositionUpdate isPositionAllowed(Position pos) {
         if (doMazeBlockPositionOrPath(pos, pos))
@@ -78,6 +82,11 @@ public class World implements IWorld {
         return PositionUpdate.ALLOWED;
     }
 
+    /**
+     * Checks if there isn't a game object that is blocking a path.
+     * @param pos1
+     * @return ALLOWED enum if the position is allowed else an appropriate enum.
+     */
     @Override
     public PositionUpdate isPathAllowed(Robot robot, Position pos1, Position pos2) {
         if (doMazeBlockPositionOrPath(pos1, pos2))
