@@ -32,4 +32,6 @@ public interface IUserRepository {
      * @return true if successfully deleted else false.
      */
     public boolean deleteUser(User user);
+
+    public void close();
 }

@@ -40,4 +40,9 @@ public class UserRepository implements IUserRepository {
     public boolean deleteUser(User user) {
         return false;
     }
+
+    @Override
+    public void close() {
+        this.entityManager.close();
+    }
 }
