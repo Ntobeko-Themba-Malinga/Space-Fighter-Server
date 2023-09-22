@@ -10,11 +10,12 @@ public class Server {
     private final Javalin server;
 
     public Server(ServerHandler serverHandler) {
-        this.server = Javalin.create();
+        this.server = Javalin.create(config -> {
+            config.addStaticFiles("templates", Location.CLASSPATH);
+        });
 
-        Map<String, String> a = new ConcurrentHashMap<>();
-        a.put("name", "Ntobeko");
-        this.server.get("", ctx -> ctx.render("templates/home.html", a));
+        this.server.get("", ctx -> ctx.render("templates/index.html"));
+        this.server.post("", ctx -> serverHandler.userRegister(ctx));
     }
 
     /**

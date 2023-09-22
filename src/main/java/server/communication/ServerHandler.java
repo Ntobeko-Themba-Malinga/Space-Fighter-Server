@@ -9,6 +9,9 @@ import io.javalin.websocket.WsMessageContext;
 import server.communication.response.ResponseFactory;
 import world.IWorld;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ServerHandler {
     private ObjectMapper mapper;
     private IWorld world;
@@ -17,6 +20,15 @@ public class ServerHandler {
     public ServerHandler(IWorld world) {
         this.mapper = new ObjectMapper();
         this.world = world;
+    }
+
+    public void userRegister(Context context) {
+        context.contentType("application/json");
+        context.status(HttpCode.CREATED);
+        Map<String, String> token = new HashMap<>();
+        token.put("result", "created");
+        token.put("token", "GUIhJuiIOjog$5FJ513");
+        context.json(token);
     }
 
     /**
