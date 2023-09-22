@@ -14,6 +14,7 @@ public class Server {
             config.addStaticFiles("templates", Location.CLASSPATH);
         });
 
+        this.server.post("/login", ctx -> serverHandler.userLogin(ctx));
         this.server.get("", ctx -> ctx.render("templates/index.html"));
         this.server.post("", ctx -> serverHandler.userRegister(ctx));
     }

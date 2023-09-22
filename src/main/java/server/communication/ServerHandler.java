@@ -9,6 +9,7 @@ import io.javalin.http.HttpCode;
 import server.communication.response.ResponseFactory;
 import server.model.IUserRepository;
 import server.model.User;
+import server.session.Session;
 import server.token.TokenGenerator;
 import world.IWorld;
 
@@ -55,6 +56,32 @@ public class ServerHandler {
             context.status(HttpCode.EXPECTATION_FAILED);
             response.put("result", "error");
             response.put("token", "Username already taken, try again!");
+        }
+        context.json(response);
+    }
+
+    public void userLogin(Context context) {
+        JsonNode request = parseRequest(context);
+        String token = request.get("token").asText();
+
+        if (token == null) {
+            throw new BadRequestResponse();
+        }
+
+        context.contentType("application/json");
+        Map<String, String> response = new HashMap<>();
+
+        User user = userRepository.getUser(token);
+
+        if (user != null) {
+            Session.login(context, user);
+            context.status(HttpCode.OK);
+            response.put("result", "ok");
+            response.put("message", "Login successful");
+        } else {
+            context.status(HttpCode.EXPECTATION_FAILED);
+            response.put("result", "error");
+            response.put("message", "Invalid token");
         }
         context.json(response);
     }

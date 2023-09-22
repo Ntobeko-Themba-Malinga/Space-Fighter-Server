@@ -1,12 +1,15 @@
 package server.session;
 
 
+import io.javalin.http.Context;
+import server.model.User;
+
 public class Session {
-    public static String login(String username, String password) {
-        return null;
+    public static void login(Context context, User user) {
+        context.sessionAttribute(user.getToken(), user.getUsername());
     }
 
-    public static boolean logout() {
-        return false;
+    public static void logout(Context context, String token) {
+        context.sessionAttributeMap().remove(token);
     }
 }
