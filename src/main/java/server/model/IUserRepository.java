@@ -12,11 +12,10 @@ public interface IUserRepository {
 
     /**
      * Retrieves an existing user from the database.
-     * @param username The username of the user to retrieve.
-     * @param password The hashed password of the user to retrieve.
+     * @param token The hashed token of the user to retrieve.
      * @return instance of the user retrieved from the database or null if user is not found.
      */
-    public User getUser(String username, String password);
+    public User getUser(String token);
 
     /**
      * Updates a user's password.

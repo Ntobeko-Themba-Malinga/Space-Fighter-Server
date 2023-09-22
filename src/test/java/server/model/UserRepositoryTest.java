@@ -24,7 +24,7 @@ class UserRepositoryTest {
         User testUser = userRepository.register("TestCrashDummy", "testpass123");
         assertEquals(1, testUser.getId());
         assertEquals("TestCrashDummy", testUser.getUsername());
-        assertEquals("testpass123", testUser.getPassword());
+        assertEquals("testpass123", testUser.getToken());
     }
 
     @Test

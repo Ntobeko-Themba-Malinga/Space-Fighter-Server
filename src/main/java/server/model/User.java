@@ -10,12 +10,12 @@ public class User {
     private Long id;
     @Column(name = "username", unique = true, nullable = false)
     private String username;
-    @Column(name = "password", nullable = false)
-    private String password;
+    @Column(name = "token", unique = true, nullable = false)
+    private String token;
 
-    public User(String username, String password) {
+    public User(String username, String token) {
         this.username = username;
-        this.password = password;
+        this.token = token;
     }
 
     public User() {}
@@ -36,11 +36,11 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getToken() {
+        return token;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setToken(String password) {
+        this.token = password;
     }
 }

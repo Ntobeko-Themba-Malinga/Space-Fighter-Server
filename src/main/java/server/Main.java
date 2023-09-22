@@ -9,8 +9,8 @@ import world.IWorld;
 public class Main {
     public static void main(String[] args) {
         IWorld world = null;
-//        IUserRepository userRepository = new UserRepository();
-        ServerHandler serverHandler = new ServerHandler(world, null);
+        IUserRepository userRepository = new UserRepository();
+        ServerHandler serverHandler = new ServerHandler(world, userRepository);
         Server server = new Server(serverHandler);
         server.start(5000);
     }

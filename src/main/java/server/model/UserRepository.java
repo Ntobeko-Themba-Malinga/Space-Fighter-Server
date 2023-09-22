@@ -27,7 +27,7 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public User getUser(String username, String password) {
+    public User getUser(String token) {
         return null;
     }
 

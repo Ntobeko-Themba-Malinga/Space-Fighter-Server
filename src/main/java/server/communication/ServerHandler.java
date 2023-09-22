@@ -6,9 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpCode;
-import org.json.JSONObject;
 import server.communication.response.ResponseFactory;
 import server.model.IUserRepository;
+import server.model.User;
 import server.token.TokenGenerator;
 import world.IWorld;
 
@@ -18,8 +18,7 @@ import java.util.Map;
 public class ServerHandler {
     private final IUserRepository userRepository;
     private final ObjectMapper mapper;
-    private IWorld world;
-    private String client;
+    private final IWorld world;
 
     public ServerHandler(IWorld world, IUserRepository userRepository) {
         this.mapper = new ObjectMapper();
@@ -29,8 +28,7 @@ public class ServerHandler {
 
     private JsonNode parseRequest(Context context) {
         try {
-            JsonNode request = mapper.readTree(context.body());
-            return request;
+            return mapper.readTree(context.body());
         } catch (JsonProcessingException e) {
             throw new BadRequestResponse();
         }
@@ -44,12 +42,20 @@ public class ServerHandler {
         }
 
         String token = TokenGenerator.generate();
+        User user = userRepository.register(username, token);
 
         context.contentType("application/json");
-        context.status(HttpCode.CREATED);
         Map<String, String> response = new HashMap<>();
-        response.put("result", "created");
-        response.put("token", token);
+
+        if (user != null) {
+            context.status(HttpCode.CREATED);
+            response.put("result", "created");
+            response.put("token", token);
+        } else {
+            context.status(HttpCode.EXPECTATION_FAILED);
+            response.put("result", "error");
+            response.put("token", "Username already taken, try again!");
+        }
         context.json(response);
     }
 
@@ -65,13 +71,5 @@ public class ServerHandler {
             context.status(HttpCode.OK);
             context.json(ResponseFactory.create("bad_request"));
         }
-    }
-
-    public String getClient() {
-        return client;
-    }
-
-    public void setClient(String client) {
-        this.client = client;
     }
 }
