@@ -37,13 +37,13 @@ public class ServerHandler {
 
     public void userRegister(Context context) {
         JsonNode request = parseRequest(context);
-        String username = request.get("username").asText();
+        JsonNode username = request.get("username");
         if (username == null) {
             throw new BadRequestResponse();
         }
 
         String token = TokenGenerator.generate();
-        User user = userRepository.register(username, token);
+        User user = userRepository.register(username.asText(), token);
 
         context.contentType("application/json");
         Map<String, String> response = new HashMap<>();
@@ -53,7 +53,7 @@ public class ServerHandler {
             response.put("result", "created");
             response.put("token", token);
         } else {
-            context.status(HttpCode.EXPECTATION_FAILED);
+            context.status(HttpCode.OK);
             response.put("result", "error");
             response.put("token", "Username already taken, try again!");
         }
@@ -62,24 +62,23 @@ public class ServerHandler {
 
     public void userLogin(Context context) {
         JsonNode request = parseRequest(context);
-        String token = request.get("token").asText();
+        JsonNode token = request.get("token");
 
         if (token == null) {
             throw new BadRequestResponse();
         }
 
         context.contentType("application/json");
+        context.status(HttpCode.OK);
         Map<String, String> response = new HashMap<>();
 
-        User user = userRepository.getUser(token);
+        User user = userRepository.getUser(token.asText());
 
         if (user != null) {
             Session.login(context, user);
-            context.status(HttpCode.OK);
             response.put("result", "ok");
             response.put("message", "Login successful");
         } else {
-            context.status(HttpCode.EXPECTATION_FAILED);
             response.put("result", "error");
             response.put("message", "Invalid token");
         }

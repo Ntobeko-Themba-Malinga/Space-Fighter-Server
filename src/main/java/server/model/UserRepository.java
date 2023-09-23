@@ -1,8 +1,6 @@
 package server.model;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
 
 
 public class UserRepository implements IUserRepository {
@@ -16,6 +14,8 @@ public class UserRepository implements IUserRepository {
     @Override
     public User register(String username, String password) {
         try {
+            if (username.trim() == "") throw new Exception();
+
             User user = new User(username, password);
             this.entityManager.getTransaction().begin();
             this.entityManager.persist(user);
@@ -28,7 +28,14 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public User getUser(String token) {
-        return null;
+        entityManager.getTransaction().begin();
+        Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.token = '" + token + "'");
+
+        try {
+            return (User) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Override

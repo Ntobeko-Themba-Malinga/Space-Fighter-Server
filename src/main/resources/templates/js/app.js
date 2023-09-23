@@ -34,21 +34,3 @@ form.addEventListener("submit", (event) => {
         }
     });
 });
-
-
-
-homeLink.addEventListener("click", (event) => {
-    event.preventDefault();
-
-    content.innerHTML = `
-    <form id="create-form">
-        <div>
-            <label for="usernameInput">Username: </label>
-            <input type="text" name="usernameInput" id="usernameInput">
-        </div>
-        <div>
-            <input type="submit" value="CREATE" >
-        </div>  
-    </form>
-    `;
-});

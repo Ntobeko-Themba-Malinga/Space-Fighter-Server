@@ -1,9 +1,5 @@
 package server.model;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -39,7 +35,9 @@ class UserRepositoryTest {
     @Order(2)
     void getUser() {
         userRepository.register("TestCrashDummy2", "testpass123");
-
+        User user = userRepository.getUser("testpass123");
+        assertEquals("TestCrashDummy2", user.getUsername());
+        assertEquals("testpass123", user.getToken());
     }
 
     @Test

@@ -5,10 +5,13 @@ import server.communication.ServerHandler;
 import server.model.IUserRepository;
 import server.model.UserRepository;
 import world.IWorld;
+import world.World;
+import world.maze.SimpleMaze;
+import world.objects.Position;
 
 public class Main {
     public static void main(String[] args) {
-        IWorld world = null;
+        IWorld world = new World(new SimpleMaze(), new Position(-200, 200), new Position(200, -200));
         IUserRepository userRepository = new UserRepository();
         ServerHandler serverHandler = new ServerHandler(world, userRepository);
         Server server = new Server(serverHandler);
