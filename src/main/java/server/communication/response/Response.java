@@ -1,18 +1,9 @@
 package server.communication.response;
 
-import world.IWorld;
-import world.objects.robot.Robot;
+import io.javalin.http.Context;
+
+import java.util.Map;
 
 public abstract class Response {
-    private IWorld world;
-    private Robot robot;
-
-    public Response(IWorld world, Robot robot) {
-        this.world = world;
-        this.robot = robot;
-    }
-
-    public Response() {}
-
-    public abstract String message();
+    public abstract Map<String, String> message(Context ctx);
 }

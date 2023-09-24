@@ -1,12 +1,14 @@
 const homeLink = document.getElementById("home-link");
 const form = document.getElementById("create-form");
-const inputField = document.getElementById("usernameInput");
+const usernameInputField = document.getElementById("usernameInput");
+const passwordInputField = document.getElementById("passwordInput");
 const content = document.getElementById("content");
 
 
 form.addEventListener("submit", (event) => {
     event.preventDefault();
-    let username = inputField.value;
+    let username = usernameInputField.value;
+    let password = passwordInputField.value;
 
     console.log(username);
 
@@ -15,7 +17,7 @@ form.addEventListener("submit", (event) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username: username})
+        body: JSON.stringify({ username: username, password: password})
     };
 
     fetch("/", options)

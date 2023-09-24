@@ -7,6 +7,7 @@ import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpCode;
 import server.communication.response.ResponseFactory;
+import server.communication.response.Responses;
 import server.model.IUserRepository;
 import server.model.User;
 import server.session.Session;
@@ -27,6 +28,11 @@ public class ServerHandler {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Converts the request body to JSON.
+     * @param context Javalin Context class object.
+     * @return JsonNode object to access the JSON values.
+     */
     private JsonNode parseRequest(Context context) {
         try {
             return mapper.readTree(context.body());
@@ -35,29 +41,35 @@ public class ServerHandler {
         }
     }
 
+    /**
+     * UserRgister helper method. Its job is to determine which response to send back.
+     * It will a success message if account created successfully
+     * @param ctx Javalin Context class object.
+     * @param user User object, which will not be null if user created successfully.
+     */
+    private void userRegisterResponse(Context ctx, User user) {
+        if (user != null) {
+            ResponseFactory.create(Responses.USER_REGISTER_SUCCESS).message(ctx);
+        } else {
+            ResponseFactory.create(Responses.USER_REGISTER_FAIL).message(ctx);
+        }
+    }
+
+    /**
+     * Creates a new user account,
+     * @param context Javalin context.
+     */
     public void userRegister(Context context) {
         JsonNode request = parseRequest(context);
         JsonNode username = request.get("username");
-        if (username == null) {
-            throw new BadRequestResponse();
-        }
+        JsonNode password = request.get("password");
 
-        String token = TokenGenerator.generate();
-        User user = userRepository.register(username.asText(), token);
-
-        context.contentType("application/json");
-        Map<String, String> response = new HashMap<>();
-
-        if (user != null) {
-            context.status(HttpCode.CREATED);
-            response.put("result", "created");
-            response.put("token", token);
+        if (username == null || password == null) {
+            ResponseFactory.create(Responses.BAD_REQUEST).message(context);
         } else {
-            context.status(HttpCode.OK);
-            response.put("result", "error");
-            response.put("token", "Username already taken, try again!");
+            User user = userRepository.register(username.asText(), password.asText());
+            userRegisterResponse(context, user);
         }
-        context.json(response);
     }
 
     public void userLogin(Context context) {
@@ -72,10 +84,10 @@ public class ServerHandler {
         context.status(HttpCode.OK);
         Map<String, String> response = new HashMap<>();
 
-        User user = userRepository.getUser(token.asText());
+        User user = userRepository.getUser("", "");
 
         if (user != null) {
-            Session.login(context, user);
+            Session.login(context, user, "");
             response.put("result", "ok");
             response.put("message", "Login successful");
         } else {
@@ -95,7 +107,7 @@ public class ServerHandler {
         } catch (JsonProcessingException e) {
             context.contentType("application/json");
             context.status(HttpCode.OK);
-            context.json(ResponseFactory.create("bad_request"));
+            context.json(ResponseFactory.create(Responses.BAD_REQUEST).message(context));
         }
     }
 }

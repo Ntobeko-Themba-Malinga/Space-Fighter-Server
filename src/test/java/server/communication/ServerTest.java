@@ -41,25 +41,24 @@ class ServerTest {
     @Test
     void userRegister() throws JsonProcessingException {
         HttpResponse<String> response = Unirest.post("http://localhost:" + port)
-                .body("{ \"username\" : \"TestCrashDummy\" }")
+                .body("{ \"username\" : \"TestCrashDummy\", \"password\" : \"testPass123\" }")
                 .asString();
         JsonNode responseJson = mapper.readTree(response.getBody());
         assertEquals(201, response.getStatus());
         assertEquals("created", responseJson.get("result").asText());
-        assertNotNull(responseJson.get("token"));
+        assertEquals("User successfully created!", responseJson.get("message").asText());
     }
 
     @Test
     void userRegisterTaken() throws JsonProcessingException {
         this.userRepository.register("TestCrashDummy", "testPass123");
         HttpResponse<String> response = Unirest.post("http://localhost:" + port)
-                .body("{ \"username\" : \"TestCrashDummy\" }")
+                .body("{ \"username\" : \"TestCrashDummy\", \"password\" : \"testPass123\" }")
                 .asString();
         JsonNode responseJson = mapper.readTree(response.getBody());
         assertEquals(200, response.getStatus());
-        assertEquals("error", responseJson.get("result").asText());
-        assertNotNull(responseJson.get("token"));
-        assertEquals("Username already taken, try again!", responseJson.get("token").asText());
+        assertEquals("ok", responseJson.get("result").asText());
+        assertEquals("Username already taken!", responseJson.get("message").asText());
     }
 
     @Test

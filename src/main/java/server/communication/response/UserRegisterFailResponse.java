@@ -6,15 +6,14 @@ import io.javalin.http.HttpCode;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BadRequestResponse extends Response {
+public class UserRegisterFailResponse extends Response {
     @Override
     public Map<String, String> message(Context ctx) {
         ctx.contentType("application/json");
-        ctx.status(HttpCode.BAD_REQUEST);
-
+        ctx.status(HttpCode.OK);
         Map<String, String> response = new HashMap<>();
-        response.put("result", "error");
-        response.put("message", "Bad json format");
+        response.put("result", "ok");
+        response.put("message", "Username already taken!");
         ctx.json(response);
         return response;
     }

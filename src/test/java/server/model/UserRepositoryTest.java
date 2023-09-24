@@ -20,7 +20,7 @@ class UserRepositoryTest {
         User testUser = userRepository.register("TestCrashDummy", "testpass123");
         assertEquals(1, testUser.getId());
         assertEquals("TestCrashDummy", testUser.getUsername());
-        assertEquals("testpass123", testUser.getToken());
+        assertEquals("testpass123", testUser.getPassword());
     }
 
     @Test
@@ -35,9 +35,9 @@ class UserRepositoryTest {
     @Order(2)
     void getUser() {
         userRepository.register("TestCrashDummy2", "testpass123");
-        User user = userRepository.getUser("testpass123");
+        User user = userRepository.getUser("TestCrashDummy2", "testpass123");
         assertEquals("TestCrashDummy2", user.getUsername());
-        assertEquals("testpass123", user.getToken());
+        assertEquals("testpass123", user.getPassword());
     }
 
     @Test

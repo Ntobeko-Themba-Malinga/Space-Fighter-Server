@@ -27,9 +27,10 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public User getUser(String token) {
+    public User getUser(String username, String password) {
         entityManager.getTransaction().begin();
-        Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.token = '" + token + "'");
+        Query query = entityManager.createQuery(
+                "SELECT u FROM User u WHERE u.username = '" + username + "' AND u.password = '" + password + "'");
 
         try {
             return (User) query.getSingleResult();

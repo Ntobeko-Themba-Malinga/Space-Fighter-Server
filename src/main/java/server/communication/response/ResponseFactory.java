@@ -1,17 +1,17 @@
 package server.communication.response;
 
-import world.IWorld;
-import world.objects.robot.Robot;
 
 public class ResponseFactory {
-    public static Response create(String type, IWorld world, Robot robot) {
-        return null;
-    }
-
-    public static Response create(String type) {
-        switch (type.toLowerCase()) {
-            case "bad_request" -> {
+    public static Response create(Responses type) {
+        switch (type) {
+            case BAD_REQUEST -> {
                 return new BadRequestResponse();
+            }
+            case USER_REGISTER_SUCCESS -> {
+                return new UserRegisterSuccessResponse();
+            }
+            case USER_REGISTER_FAIL -> {
+                return new UserRegisterFailResponse();
             }
         }
         return null;

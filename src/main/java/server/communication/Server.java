@@ -3,20 +3,16 @@ package server.communication;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class Server {
     private final Javalin server;
 
     public Server(ServerHandler serverHandler) {
-        this.server = Javalin.create(config -> {
-            config.addStaticFiles("templates", Location.CLASSPATH);
-        });
+        this.server = Javalin.create(config -> config.addStaticFiles("templates", Location.CLASSPATH));
 
-        this.server.post("/login", ctx -> serverHandler.userLogin(ctx));
+        this.server.post("/login", serverHandler::userLogin);
         this.server.get("", ctx -> ctx.render("templates/index.html"));
-        this.server.post("", ctx -> serverHandler.userRegister(ctx));
+        this.server.post("", serverHandler::userRegister);
     }
 
     /**
