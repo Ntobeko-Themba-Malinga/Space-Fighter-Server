@@ -9,7 +9,14 @@ public class Server {
 
     public Server(ServerHandler serverHandler) {
         this.server = Javalin.create(config -> config.addStaticFiles("templates", Location.CLASSPATH));
+        endPoints(serverHandler);
+    }
 
+    /**
+     * Configures all the server's endpoints.
+     * @param serverHandler contains methods to call for a specific endpoint.
+     */
+    private void endPoints(ServerHandler serverHandler) {
         this.server.post("/login", serverHandler::userLogin);
         this.server.get("", ctx -> ctx.render("templates/index.html"));
         this.server.post("", serverHandler::userRegister);

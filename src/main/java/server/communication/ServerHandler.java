@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpCode;
+import server.communication.response.Response;
 import server.communication.response.ResponseFactory;
 import server.communication.response.Responses;
 import server.model.IUserRepository;
@@ -14,8 +15,8 @@ import server.session.Session;
 import server.token.TokenGenerator;
 import world.IWorld;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
+
 
 public class ServerHandler {
     private final IUserRepository userRepository;
@@ -42,16 +43,16 @@ public class ServerHandler {
     }
 
     /**
-     * UserRgister helper method. Its job is to determine which response to send back.
-     * It will a success message if account created successfully
+     * UserRegister helper method. Its job is to determine which response to send back.
+     * It will send a success message if account created successfully
      * @param ctx Javalin Context class object.
      * @param user User object, which will not be null if user created successfully.
      */
     private void userRegisterResponse(Context ctx, User user) {
         if (user != null) {
-            ResponseFactory.create(Responses.USER_REGISTER_SUCCESS).message(ctx);
+            Objects.requireNonNull(ResponseFactory.create(Responses.USER_REGISTER_SUCCESS)).message(ctx);
         } else {
-            ResponseFactory.create(Responses.USER_REGISTER_FAIL).message(ctx);
+            Objects.requireNonNull(ResponseFactory.create(Responses.USER_REGISTER_FAIL)).message(ctx);
         }
     }
 
@@ -65,36 +66,46 @@ public class ServerHandler {
         JsonNode password = request.get("password");
 
         if (username == null || password == null) {
-            ResponseFactory.create(Responses.BAD_REQUEST).message(context);
+            Objects.requireNonNull(ResponseFactory.create(Responses.BAD_REQUEST)).message(context);
         } else {
             User user = userRepository.register(username.asText(), password.asText());
             userRegisterResponse(context, user);
         }
     }
 
+    /**
+     * UserLogin helper method. Its job is to determine which response to send back.
+     * It will send a success message if account was found and logged in.
+     * @param ctx Javalin Context class object.
+     * @param user User object, which will not be null if user account is found.
+     */
+    private void userLoginResponse(Context ctx, User user) {
+        if (user != null) {
+            String token = TokenGenerator.generate();
+            Session.login(ctx, user, token);
+            Response res = ResponseFactory.create(Responses.USER_LOGIN_SUCCESS);
+            res.setData(token);
+            res.message(ctx);
+        } else {
+            Objects.requireNonNull(ResponseFactory.create(Responses.USER_LOGIN_FAIL)).message(ctx);
+        }
+    }
+
+    /**
+     * Logs in an existing user account.
+     * @param context Javalin context class object.
+     */
     public void userLogin(Context context) {
         JsonNode request = parseRequest(context);
-        JsonNode token = request.get("token");
+        JsonNode username = request.get("username");
+        JsonNode password = request.get("password");
 
-        if (token == null) {
-            throw new BadRequestResponse();
-        }
-
-        context.contentType("application/json");
-        context.status(HttpCode.OK);
-        Map<String, String> response = new HashMap<>();
-
-        User user = userRepository.getUser("", "");
-
-        if (user != null) {
-            Session.login(context, user, "");
-            response.put("result", "ok");
-            response.put("message", "Login successful");
+        if (username == null || password == null) {
+            Objects.requireNonNull(ResponseFactory.create(Responses.BAD_REQUEST)).message(context);
         } else {
-            response.put("result", "error");
-            response.put("message", "Invalid token");
+            User user = userRepository.getUser(username.asText(), password.asText());
+            userLoginResponse(context, user);
         }
-        context.json(response);
     }
 
     /**
@@ -107,7 +118,7 @@ public class ServerHandler {
         } catch (JsonProcessingException e) {
             context.contentType("application/json");
             context.status(HttpCode.OK);
-            context.json(ResponseFactory.create(Responses.BAD_REQUEST).message(context));
+            context.json(Objects.requireNonNull(ResponseFactory.create(Responses.BAD_REQUEST)).message(context));
         }
     }
 }

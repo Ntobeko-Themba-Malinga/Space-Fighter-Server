@@ -13,6 +13,12 @@ public class ResponseFactory {
             case USER_REGISTER_FAIL -> {
                 return new UserRegisterFailResponse();
             }
+            case USER_LOGIN_SUCCESS -> {
+                return new UserLoginSuccess();
+            }
+            case USER_LOGIN_FAIL -> {
+                return new UserLoginFail();
+            }
         }
         return null;
     }

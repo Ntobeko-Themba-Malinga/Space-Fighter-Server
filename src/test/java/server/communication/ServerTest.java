@@ -62,25 +62,49 @@ class ServerTest {
     }
 
     @Test
+    void userRegisterBadRequest() throws JsonProcessingException {
+        this.userRepository.register("TestCrashDummy", "testPass123");
+        HttpResponse<String> response = Unirest.post("http://localhost:" + port)
+                .body("{ \"usename\" : \"TestCrashDummy\", \"pssword\" : \"testPass123\" }")
+                .asString();
+        JsonNode responseJson = mapper.readTree(response.getBody());
+        assertEquals(400, response.getStatus());
+        assertEquals("error", responseJson.get("result").asText());
+        assertEquals("Bad json format", responseJson.get("message").asText());
+    }
+
+    @Test
     void userLogin() throws JsonProcessingException {
         this.userRepository.register("TestCrashDummy", "testPass123");
         HttpResponse<String> response = Unirest.post("http://localhost:" + port + "/login")
-                .body("{ \"token\" : \"testPass123\" }")
+                .body("{ \"username\" : \"TestCrashDummy\", \"password\" : \"testPass123\" }")
                 .asString();
         JsonNode responseJson = mapper.readTree(response.getBody());
         assertEquals(200, response.getStatus());
         assertEquals("ok", responseJson.get("result").asText());
         assertEquals("Login successful", responseJson.get("message").asText());
+        assertNotNull(responseJson.get("token"));
     }
 
     @Test
-    void userLoginInvalid() throws JsonProcessingException {
+    void userLoginInvalidAccount() throws JsonProcessingException {
         HttpResponse<String> response = Unirest.post("http://localhost:" + port + "/login")
-                .body("{ \"token\" : \"testPass123\" }")
+                .body("{ \"username\" : \"TestCrashDummy\", \"password\" : \"testPass123\" }")
                 .asString();
         JsonNode responseJson = mapper.readTree(response.getBody());
         assertEquals(200, response.getStatus());
+        assertEquals("ok", responseJson.get("result").asText());
+        assertEquals("User not found!", responseJson.get("message").asText());
+    }
+
+    @Test
+    void userLoginBadRequest() throws JsonProcessingException {
+        HttpResponse<String> response = Unirest.post("http://localhost:" + port + "/login")
+                .body("{ \"userame\" : \"TestrashDummy\", \"password\" : \"testPass123\" }")
+                .asString();
+        JsonNode responseJson = mapper.readTree(response.getBody());
+        assertEquals(400, response.getStatus());
         assertEquals("error", responseJson.get("result").asText());
-        assertEquals("Invalid token", responseJson.get("message").asText());
+        assertEquals("Bad json format", responseJson.get("message").asText());
     }
 }
