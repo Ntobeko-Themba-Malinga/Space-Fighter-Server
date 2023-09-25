@@ -1,5 +1,7 @@
 package world.objects.robot;
 
+import org.eclipse.jetty.util.ajax.JSON;
+import org.json.JSONObject;
 import world.IWorld;
 import world.objects.GameObject;
 import world.objects.Position;
@@ -115,6 +117,18 @@ public abstract class Robot extends GameObject {
             return false;
         }
         return true;
+    }
+
+    public JSONObject getProperties() {
+        JSONObject properties = new JSONObject();
+        properties.put("status", status.toString());
+        properties.put("max_shield", maxShield);
+        properties.put("max_shots", maxShots);
+        properties.put("shields", shield);
+        properties.put("shots", shots);
+        properties.put("reload", reloadTime);
+        properties.put("bullet_distance", bulletTravelDistance);
+        return properties;
     }
 
     public int getMaxShots() {

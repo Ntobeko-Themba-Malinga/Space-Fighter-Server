@@ -43,20 +43,20 @@ public class LaunchCommand extends Command {
 
     @Override
     public String execute(IWorld world, String username) {
+        setResult("ERROR");
         if (world.isRobotExist(username)) {
-            System.out.println("Robot already launched");
-            return null;
+            setMessage("Robot already launched");
+        } else if (world.isWorldFull()) {
+            setMessage("World is full");
+        } else {
+            Position position = createRandomPosition(world);
+            IWorld.Direction direction = createRandomDirection();
+            String robotType = getArguments().get(0).asText().toUpperCase();
+            Robot robot = RobotFactory.createRobot(robotType, position, direction);
+            world.addRobot(username, robot);
+            setResult("OK");
+            setStatus(robot.getProperties());
         }
-
-        if (world.isWorldFull()) {
-            System.out.println("World is full");
-        }
-
-        Position position = createRandomPosition(world);
-        IWorld.Direction direction = createRandomDirection();
-        String robotType = getArguments().get(0).asText().toUpperCase();
-        Robot robot = RobotFactory.createRobot(robotType, position, direction);
-        world.addRobot(username, robot);
-        return null;
+        return buildResponse();
     }
 }
