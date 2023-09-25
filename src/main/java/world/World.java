@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class World implements IWorld {
     private final Position topLeftCorner;
     private final Position bottomRightCorner;
-    private IMaze maze;
+    private final IMaze maze;
     private Map<String, Robot> robots;
 
     public World(IMaze maze, Position topLeftCorner, Position bottomRightCorner) {
@@ -84,7 +84,7 @@ public class World implements IWorld {
 
     /**
      * Checks if there isn't a game object that is blocking a path.
-     * @param pos1
+     * @param pos1 f
      * @return ALLOWED enum if the position is allowed else an appropriate enum.
      */
     @Override
@@ -102,7 +102,8 @@ public class World implements IWorld {
 
     @Override
     public boolean addRobot(String robotName, Robot robot) {
-        if (this.robots.keySet().contains(robotName))
+        robotName = robotName.toUpperCase();
+        if (this.robots.containsKey(robotName))
             return false;
 
         this.robots.put(robotName, robot);
@@ -111,7 +112,7 @@ public class World implements IWorld {
 
     @Override
     public boolean removeRobot(String robotName) {
-        if (this.robots.keySet().contains(robotName)) {
+        if (this.robots.containsKey(robotName)) {
             this.robots.remove(robotName);
             return true;
         }
@@ -120,6 +121,7 @@ public class World implements IWorld {
 
     @Override
     public boolean isRobotExist(String name) {
+        name = name.toUpperCase();
         for (String robot : robots.keySet()) {
             if (robot.equalsIgnoreCase(name))
                 return true;
@@ -128,8 +130,21 @@ public class World implements IWorld {
     }
 
     @Override
+    public boolean isWorldFull() {
+        return robots.size() > 10;
+    }
+
+    @Override
     public Map<String, Robot> getRobots() {
         return this.robots;
+    }
+
+    @Override
+    public Robot getRobot(String robotName) {
+        robotName = robotName.toUpperCase();
+        if (robots.containsKey(robotName))
+            return robots.get(robotName);
+        return null;
     }
 
     @Override

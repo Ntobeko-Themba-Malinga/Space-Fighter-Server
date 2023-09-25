@@ -11,7 +11,7 @@ class RobotFactoryTest {
     @Test
     void createRobot() {
         Robot robot = RobotFactory.createRobot(
-                RobotTypes.Tank,
+                "TANK",
                 new Position(0, 0),
                 IWorld.Direction.EAST
         );

@@ -33,4 +33,8 @@ public abstract class Command {
      * @return JSONObject containing the results of the command execution.
      */
     public abstract String execute(IWorld world, String username);
+
+    public JsonNode getArguments() {
+        return arguments;
+    }
 }

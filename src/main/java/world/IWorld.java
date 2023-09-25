@@ -36,7 +36,11 @@ public interface IWorld {
 
     public boolean isRobotExist(String name);
 
+    public boolean isWorldFull();
+
     public Map<String, Robot> getRobots();
+
+    public Robot getRobot(String robotName);
 
     public void setRobots(Map<String, Robot> robots);
 

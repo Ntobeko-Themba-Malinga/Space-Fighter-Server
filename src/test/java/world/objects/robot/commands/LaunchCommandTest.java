@@ -25,7 +25,7 @@ class LaunchCommandTest {
     @BeforeEach
     void setUp() {
         this.world = new World(new SimpleMaze(), new Position(-100, 100), new Position(100, -100));
-        this.robot = RobotFactory.createRobot(RobotTypes.Tank, new Position(0,0), IWorld.Direction.NORTH);
+        this.robot = RobotFactory.createRobot("TANK", new Position(0,0), IWorld.Direction.NORTH);
     }
 
     @Test
