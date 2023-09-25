@@ -8,10 +8,10 @@ import java.util.Map;
 
 public class UserRegisterSuccessResponse extends Response {
     @Override
-    public Map<String, String> message(Context ctx) {
+    public Map<String, Object> message(Context ctx) {
         ctx.contentType("application/json");
         ctx.status(HttpCode.CREATED);
-        Map<String, String> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         response.put("result", "created");
         response.put("message", "User successfully created!");
         ctx.json(response);

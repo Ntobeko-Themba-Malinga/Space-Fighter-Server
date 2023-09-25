@@ -17,7 +17,9 @@ public class Server {
      * @param serverHandler contains methods to call for a specific endpoint.
      */
     private void endPoints(ServerHandler serverHandler) {
+        this.server.post("/game", serverHandler::game);
         this.server.post("/login", serverHandler::userLogin);
+        this.server.post("/logout", serverHandler::userLogout);
         this.server.get("", ctx -> ctx.render("templates/index.html"));
         this.server.post("", serverHandler::userRegister);
     }

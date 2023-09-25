@@ -1,5 +1,8 @@
 package world.objects.robot.commands;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,9 +29,10 @@ class LaunchCommandTest {
     }
 
     @Test
-    void execute() {
-        LaunchCommand launchCommand = new LaunchCommand(List.of("Tank"));
-        JSONObject results = launchCommand.execute(this.world, this.robot);
+    void execute() throws JsonProcessingException {
+        JsonNode args = new ObjectMapper().readTree("{ \"arguments\" : [\"Tank\"]}");
+        LaunchCommand launchCommand = new LaunchCommand(args);
+        JSONObject results = new JSONObject(launchCommand.execute(this.world, "TestUser"));
 
         assertEquals("OK", results.getString("results"));
 

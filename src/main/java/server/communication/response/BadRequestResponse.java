@@ -8,11 +8,11 @@ import java.util.Map;
 
 public class BadRequestResponse extends Response {
     @Override
-    public Map<String, String> message(Context ctx) {
+    public Map<String, Object> message(Context ctx) {
         ctx.contentType("application/json");
         ctx.status(HttpCode.BAD_REQUEST);
 
-        Map<String, String> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         response.put("result", "error");
         response.put("message", "Bad json format");
         ctx.json(response);

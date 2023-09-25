@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
-import io.javalin.http.HttpCode;
+import server.commands.CommandNotFound;
 import server.communication.response.Response;
 import server.communication.response.ResponseFactory;
 import server.communication.response.Responses;
@@ -14,6 +14,7 @@ import server.model.User;
 import server.session.Session;
 import server.token.TokenGenerator;
 import world.IWorld;
+import world.objects.robot.commands.CommandFactory;
 
 import java.util.Objects;
 
@@ -84,7 +85,7 @@ public class ServerHandler {
             String token = TokenGenerator.generate();
             Session.login(ctx, user, token);
             Response res = ResponseFactory.create(Responses.USER_LOGIN_SUCCESS);
-            res.setData(token);
+            Objects.requireNonNull(res).setData(token);
             res.message(ctx);
         } else {
             Objects.requireNonNull(ResponseFactory.create(Responses.USER_LOGIN_FAIL)).message(ctx);
@@ -109,16 +110,62 @@ public class ServerHandler {
     }
 
     /**
+     * Log's out a user account
+     * @param context Javalin Context class object.
+     */
+    public void userLogout(Context context) {
+        JsonNode request = parseRequest(context);
+        JsonNode token = request.get("token");
+
+        if (token == null) {
+            Objects.requireNonNull(ResponseFactory.create(Responses.TOKEN_NOT_FOUND)).message(context);
+        } else {
+            String username = Session.getSessionUsername(context, token.asText());
+
+            if (username != null) {
+                Session.logout(context, token.asText());
+                Objects.requireNonNull(ResponseFactory.create(Responses.USER_LOGOUT_SUCCESS)).message(context);
+            } else {
+                Objects.requireNonNull(ResponseFactory.create(Responses.INVALID_USER)).message(context);
+            }
+        }
+    }
+
+    /**
+     * Game method helper command.
+     */
+    private void executeGameCommand(Context ctx, JsonNode command, JsonNode arguments, String username) {
+        try {
+            Response res = ResponseFactory.create(Responses.GAME);
+            Objects.requireNonNull(res).setData(CommandFactory.create(command.asText(), arguments).execute(world, username));
+            res.message(ctx);
+        } catch (CommandNotFound e) {
+            Objects.requireNonNull(ResponseFactory.create(Responses.INVALID_GAME_COMMAND)).message(ctx);
+        }
+    }
+
+    /**
      * Takes instruction and creates and executes the proper command.
      * @param context Javalin context contains the request in json form.
      */
-    public void handleCommand(Context context) {
-        try {
-            JsonNode request = mapper.readTree(context.body());
-        } catch (JsonProcessingException e) {
-            context.contentType("application/json");
-            context.status(HttpCode.OK);
-            context.json(Objects.requireNonNull(ResponseFactory.create(Responses.BAD_REQUEST)).message(context));
+    public void game(Context context) {
+        JsonNode request = parseRequest(context);
+        JsonNode command = request.get("command");
+        JsonNode arguments = request.get("arguments");
+        JsonNode token = request.get("token");
+
+        if (token == null) {
+            Objects.requireNonNull(ResponseFactory.create(Responses.TOKEN_NOT_FOUND)).message(context);
+        } else if (command == null || arguments == null) {
+            Objects.requireNonNull(ResponseFactory.create(Responses.INVALID_GAME_REQUEST)).message(context);
+        } else {
+            String username = Session.getSessionUsername(context, token.asText());
+
+            if (username != null) {
+                executeGameCommand(context, command, arguments, username);
+            } else {
+                Objects.requireNonNull(ResponseFactory.create(Responses.INVALID_USER)).message(context);
+            }
         }
     }
 }

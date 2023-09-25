@@ -1,5 +1,6 @@
 package world.objects.robot.commands;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import server.commands.CommandNotFound;
 import world.IWorld;
 import world.objects.robot.Robot;
@@ -15,7 +16,7 @@ public class CommandFactory {
      * @return A robot command instance object.
      * @throws CommandNotFound thrown when a command is not available.
      */
-    public static Command create(String command, List<String> arguments) throws CommandNotFound {
+    public static Command create(String command, JsonNode arguments) throws CommandNotFound {
         return switch (command) {
             case "launch" -> new LaunchCommand(arguments);
             default -> throw new CommandNotFound(command + " " + arguments);

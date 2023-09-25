@@ -7,7 +7,7 @@ import java.util.Map;
 public abstract class Response {
     private String data;
 
-    public abstract Map<String, String> message(Context ctx);
+    public abstract Map<String, Object> message(Context ctx);
 
     public String getData() {
         return data;
