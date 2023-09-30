@@ -21,6 +21,7 @@ public class RobotFactory {
         int bottomY = position.getY() - halfRobotSize;
         return switch (type) {
             case "TANK" -> new TankRobot(new Position(topX, topY), new Position(bottomX, bottomY), direction);
+            default -> throw new IllegalStateException("Unexpected value: " + type);
         };
     }
 

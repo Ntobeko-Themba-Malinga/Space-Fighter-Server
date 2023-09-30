@@ -46,6 +46,7 @@ public abstract class Command {
         response.put("hit_object", hitObject);
         response.put("objects", objects);
         response.put("status", status);
+        response.put("message", message);
         return response.toString();
     }
 

@@ -55,6 +55,7 @@ public class LaunchCommand extends Command {
             Robot robot = RobotFactory.createRobot(robotType, position, direction);
             world.addRobot(username, robot);
             setResult("OK");
+            setMessage("Robot successfully launched");
             setStatus(robot.getProperties());
         }
         return buildResponse();

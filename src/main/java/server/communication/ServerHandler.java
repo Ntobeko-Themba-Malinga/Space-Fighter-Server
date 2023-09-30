@@ -66,9 +66,12 @@ public class ServerHandler {
         JsonNode username = request.get("username");
         JsonNode password = request.get("password");
 
+        System.out.println("point 1");
         if (username == null || password == null) {
+            System.out.println("point 2");
             Objects.requireNonNull(ResponseFactory.create(Responses.BAD_REQUEST)).message(context);
         } else {
+            System.out.println("point 3");
             User user = userRepository.register(username.asText(), password.asText());
             userRegisterResponse(context, user);
         }
@@ -101,9 +104,12 @@ public class ServerHandler {
         JsonNode username = request.get("username");
         JsonNode password = request.get("password");
 
+        System.out.println("point 1");
         if (username == null || password == null) {
+            System.out.println("point 2");
             Objects.requireNonNull(ResponseFactory.create(Responses.BAD_REQUEST)).message(context);
         } else {
+            System.out.println("point 3");
             User user = userRepository.getUser(username.asText(), password.asText());
             userLoginResponse(context, user);
         }

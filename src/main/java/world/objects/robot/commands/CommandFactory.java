@@ -19,6 +19,7 @@ public class CommandFactory {
     public static Command create(String command, JsonNode arguments) throws CommandNotFound {
         return switch (command) {
             case "launch" -> new LaunchCommand(arguments);
+            case "forward" -> new ForwardCommand(arguments);
             default -> throw new CommandNotFound(command + " " + arguments);
         };
     }

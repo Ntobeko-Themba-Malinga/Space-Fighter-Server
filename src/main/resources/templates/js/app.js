@@ -25,14 +25,8 @@ form.addEventListener("submit", (event) => {
     .then(data => {
         console.log(JSON.stringify(data, null, 2));
 
-        if (data.result === "created") {
-            content.innerHTML = `
-                <h3>• Token: ${data.token}</h3>
-            `;
-        } else {
-            content.innerHTML = `
-                <h3>• Result: ${data.token}</h3>
-            `;
-        }
+        content.innerHTML = `
+            <h3>• Message: ${data.message}</h3>
+        `;
     });
 });

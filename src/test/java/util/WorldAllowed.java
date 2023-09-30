@@ -33,7 +33,17 @@ public class WorldAllowed implements IWorld {
     }
 
     @Override
+    public boolean isWorldFull() {
+        return false;
+    }
+
+    @Override
     public Map<String, Robot> getRobots() {
+        return null;
+    }
+
+    @Override
+    public Robot getRobot(String robotName) {
         return null;
     }
 

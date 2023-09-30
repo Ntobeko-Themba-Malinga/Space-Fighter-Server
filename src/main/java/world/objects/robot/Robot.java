@@ -6,6 +6,8 @@ import world.IWorld;
 import world.objects.GameObject;
 import world.objects.Position;
 
+import java.util.List;
+
 public abstract class Robot extends GameObject {
     private int maxShots;
     private int maxShield;
@@ -128,6 +130,8 @@ public abstract class Robot extends GameObject {
         properties.put("shots", shots);
         properties.put("reload", reloadTime);
         properties.put("bullet_distance", bulletTravelDistance);
+        properties.put("top_left_corner", List.of(getTopLeftCorner().getX(), getTopLeftCorner().getY()));
+        properties.put("bottom_right_corner", List.of(getTopLeftCorner().getX(), getTopLeftCorner().getY()));
         return properties;
     }
 
