@@ -2,10 +2,7 @@ package world.objects.robot.commands;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import server.commands.CommandNotFound;
-import world.IWorld;
-import world.objects.robot.Robot;
 
-import java.util.List;
 
 public class CommandFactory {
 
@@ -20,6 +17,7 @@ public class CommandFactory {
         return switch (command) {
             case "launch" -> new LaunchCommand(arguments);
             case "forward" -> new ForwardCommand(arguments);
+            case "turn" -> new TurnCommand(arguments);
             default -> throw new CommandNotFound(command + " " + arguments);
         };
     }

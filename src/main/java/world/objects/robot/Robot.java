@@ -132,6 +132,7 @@ public abstract class Robot extends GameObject {
         properties.put("bullet_distance", bulletTravelDistance);
         properties.put("top_left_corner", List.of(getTopLeftCorner().getX(), getTopLeftCorner().getY()));
         properties.put("bottom_right_corner", List.of(getTopLeftCorner().getX(), getTopLeftCorner().getY()));
+        properties.put("direction", direction);
         return properties;
     }
 

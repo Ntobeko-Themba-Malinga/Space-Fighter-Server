@@ -10,10 +10,29 @@ public class ForwardCommand extends Command {
         super(arguments);
     }
 
+    private void updateRobotPosition(IWorld world, Robot robot) {
+        try {
+            JsonNode args = getArguments();
+            int steps = args.get(0).asInt();
+            IWorld.PositionUpdate posUpdateState = robot.updatePosition(world, steps);
+
+            setResult("OK");
+            setStatus(robot.getProperties());
+            switch (posUpdateState) {
+                case ALLOWED -> setMessage("Done");
+                case OBSTRUCTED_ASTEROID -> setMessage("Asteroid");
+                case OBSTRUCTED_ROBOT -> setMessage("Robot");
+                case OUTSIDE_WORLD -> setMessage("Outside");
+            }
+        } catch (Exception e) {
+            setResult("ERROR");
+            setMessage("Invalid argument");
+        }
+    }
+
     @Override
     public String execute(IWorld world, String username) {
         Robot robot = world.getRobot(username);
-        JsonNode args = getArguments();
 
         if (robot == null) {
             setResult("ERROR");
@@ -22,23 +41,7 @@ public class ForwardCommand extends Command {
             setResult("ERROR");
             setMessage("Robot dead!");
         } else {
-            try {
-                int steps = args.get(0).asInt();
-                IWorld.PositionUpdate posUpdateState = robot.updatePosition(world, steps);
-
-                setResult("OK");
-                setStatus(robot.getProperties());
-                switch (posUpdateState) {
-                    case ALLOWED -> setMessage("Done");
-                    case OBSTRUCTED_ASTEROID -> setMessage("Asteroid");
-                    case OBSTRUCTED_ROBOT -> setMessage("Robot");
-                    case OUTSIDE_WORLD -> setMessage("Outside");
-                }
-            } catch (Exception e) {
-                setResult("ERROR");
-                setMessage("Invalid argument");
-                return buildResponse();
-            }
+            updateRobotPosition(world, robot);
         }
         return buildResponse();
     }
