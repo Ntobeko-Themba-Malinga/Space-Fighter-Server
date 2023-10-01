@@ -1,9 +1,9 @@
 package world.objects.robot;
 
-import org.eclipse.jetty.util.ajax.JSON;
 import org.json.JSONObject;
 import world.IWorld;
 import world.objects.GameObject;
+import world.objects.GameObjectTypes;
 import world.objects.Position;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public abstract class Robot extends GameObject {
     private int shots;
 
     public Robot(Position topLeftCorner, Position bottomRightCorner, IWorld.Direction direction) {
-        super(topLeftCorner, bottomRightCorner);
+        super(topLeftCorner, bottomRightCorner, GameObjectTypes.ROBOT);
         this.direction = direction;
         this.status = RobotState.NORMAL;
     }

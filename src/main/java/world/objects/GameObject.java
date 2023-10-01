@@ -1,18 +1,24 @@
 package world.objects;
 
+import org.json.JSONObject;
+
+import java.util.List;
+
 public abstract class GameObject {
     private Position topLeftCorner;
     private Position bottomRightCorner;
     private Position center;
+    private GameObjectTypes type;
 
     /**
      * Makes sure all games objects have top left corner and bottom right corner positions
      * @param topLeftCorner An objects top left corner position.
      * @param bottomRightCorner An objects bottom right corner position.
      */
-    public GameObject(Position topLeftCorner, Position bottomRightCorner) {
+    public GameObject(Position topLeftCorner, Position bottomRightCorner, GameObjectTypes type) {
         this.topLeftCorner = topLeftCorner;
         this.bottomRightCorner = bottomRightCorner;
+        this.type = type;
         calculateCenter();
     }
 
@@ -97,5 +103,18 @@ public abstract class GameObject {
 
     public Position getCenter() {
         return center;
+    }
+
+    public GameObjectTypes getType() {
+        return type;
+    }
+
+    public JSONObject getGameObjectInfo() {
+        JSONObject info = new JSONObject();
+        info.put("type", type.toString());
+        info.put("position", center);
+        info.put("top_left_corner", List.of(topLeftCorner.getX(), topLeftCorner.getY()));
+        info.put("bottom_right_corner", List.of(bottomRightCorner.getX(), bottomRightCorner.getY()));
+        return info;
     }
 }

@@ -18,6 +18,7 @@ public class CommandFactory {
             case "launch" -> new LaunchCommand(arguments);
             case "forward" -> new ForwardCommand(arguments);
             case "turn" -> new TurnCommand(arguments);
+            case "look" -> new LookCommand();
             default -> throw new CommandNotFound(command + " " + arguments);
         };
     }

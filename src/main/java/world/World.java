@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class World implements IWorld {
+    private final int WORLD_VISIBILITY;
     private final Position topLeftCorner;
     private final Position bottomRightCorner;
     private final IMaze maze;
@@ -18,6 +19,7 @@ public class World implements IWorld {
         this.maze = maze;
         this.topLeftCorner = topLeftCorner;
         this.bottomRightCorner = bottomRightCorner;
+        this.WORLD_VISIBILITY = (int) (bottomRightCorner.getX() * 0.1);
         this.robots = new ConcurrentHashMap<>();
     }
 
@@ -160,5 +162,10 @@ public class World implements IWorld {
     @Override
     public Position getBottomRightCorner() {
         return this.bottomRightCorner;
+    }
+
+    @Override
+    public int getVisibility() {
+        return 0;
     }
 }

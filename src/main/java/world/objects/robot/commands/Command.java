@@ -1,16 +1,14 @@
 package world.objects.robot.commands;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eclipse.jetty.util.ajax.JSON;
 import org.json.JSONObject;
 import world.IWorld;
-import world.objects.robot.Robot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Command {
-    private JsonNode arguments;
+    private final JsonNode arguments;
     private String result;
     private String message;
     private JSONObject hitObject = new JSONObject();

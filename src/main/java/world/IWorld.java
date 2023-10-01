@@ -47,4 +47,6 @@ public interface IWorld {
     public Position getTopLeftCorner();
 
     public Position getBottomRightCorner();
+
+    public int getVisibility();
 }

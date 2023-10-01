@@ -61,4 +61,9 @@ public class WorldNotAllowed implements IWorld {
     public Position getBottomRightCorner() {
         return null;
     }
+
+    @Override
+    public int getVisibility() {
+        return 0;
+    }
 }
