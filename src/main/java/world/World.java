@@ -168,4 +168,9 @@ public class World implements IWorld {
     public int getVisibility() {
         return 0;
     }
+
+    @Override
+    public IMaze getMaze() {
+        return maze;
+    }
 }

@@ -1,6 +1,7 @@
 package util;
 
 import world.IWorld;
+import world.maze.IMaze;
 import world.objects.Position;
 import world.objects.robot.Robot;
 
@@ -65,5 +66,10 @@ public class WorldNotAllowed implements IWorld {
     @Override
     public int getVisibility() {
         return 0;
+    }
+
+    @Override
+    public IMaze getMaze() {
+        return null;
     }
 }

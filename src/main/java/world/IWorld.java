@@ -1,5 +1,6 @@
 package world;
 
+import world.maze.IMaze;
 import world.objects.Position;
 import world.objects.robot.Robot;
 
@@ -49,4 +50,6 @@ public interface IWorld {
     public Position getBottomRightCorner();
 
     public int getVisibility();
+
+    public IMaze getMaze();
 }
