@@ -1,5 +1,7 @@
 package server.communication.response;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Context;
 import io.javalin.http.HttpCode;
 import org.json.JSONObject;
@@ -15,7 +17,11 @@ public class GameRequestResponse extends Response {
         Map<String, Object> response = new HashMap<>();
         response.put("result", "ok");
         response.put("message", "Command executed");
-        response.put("data", new JSONObject(getData()));
+        try {
+            response.put("data", new ObjectMapper().readTree(getData()));
+        } catch (JsonProcessingException e) {
+            response.put("data", null);
+        }
         ctx.json(response);
         return response;
     }
