@@ -31,13 +31,6 @@ public class LookCommand extends Command {
         }
     }
 
-    private void lookForAsteroid(IWorld world) {
-        for (Asteroid asteroid : world.getMaze().getAsteroids()) {
-            if (asteroid.getCenter().isIn(topLeftCorner, bottomRightCorner))
-                gameObjects.add(asteroid.getGameObjectInfo());
-        }
-    }
-
     @Override
     public String execute(IWorld world, String username) {
         int visibility = world.getVisibility();
@@ -49,7 +42,6 @@ public class LookCommand extends Command {
         topLeftCorner = new Position(robotX - visibility, robotY + visibility);
         bottomRightCorner = new Position(robotX + visibility, robotY - visibility);
 
-        lookForAsteroid(world);
         lookForRobots(world, username);
         setResult("OK");
         setMessage("Done");
