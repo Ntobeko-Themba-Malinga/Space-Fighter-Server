@@ -44,5 +44,7 @@ class ForwardCommandTest {
         assertEquals(20, results.getJSONObject("status").getInt("bullet_distance"));
         assertNotNull(results.getJSONObject("status").getJSONArray("top_left_corner"));
         assertNotNull(results.getJSONObject("status").getJSONArray("bottom_right_corner"));
+        assertEquals(0, results.getJSONObject("status").getJSONArray("position").get(0));
+        assertEquals(2, results.getJSONObject("status").getJSONArray("position").get(0));
     }
 }

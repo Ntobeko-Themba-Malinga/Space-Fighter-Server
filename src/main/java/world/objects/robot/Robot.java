@@ -42,14 +42,9 @@ public abstract class Robot extends GameObject {
 
         IWorld.PositionUpdate pathAllowed = world.isPathAllowed(this, start, end);
 
-        System.out.println("Point 1 okay");
         if (!IWorld.PositionUpdate.ALLOWED.equals(pathAllowed)) return pathAllowed;
 
-        System.out.println("Point 2 should work");
         if (axis) {
-            System.out.println("\nUpdating");
-            System.out.println(topX + " : " + topY + numSteps);
-            System.out.println(bottomX + " : " + bottomX + numSteps);
             this.setTopLeftCorner(new Position(topX, topY + numSteps));
             this.setBottomRightCorner(new Position(bottomX, bottomY + numSteps));
         } else {

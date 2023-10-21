@@ -112,7 +112,7 @@ public abstract class GameObject {
     public JSONObject getGameObjectInfo() {
         JSONObject info = new JSONObject();
         info.put("type", type.toString());
-        info.put("position", center);
+        info.put("position", List.of(center.getX(), center.getY()));
         info.put("top_left_corner", List.of(topLeftCorner.getX(), topLeftCorner.getY()));
         info.put("bottom_right_corner", List.of(bottomRightCorner.getX(), bottomRightCorner.getY()));
         return info;
