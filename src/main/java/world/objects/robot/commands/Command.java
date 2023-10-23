@@ -11,7 +11,7 @@ public abstract class Command {
     private final JsonNode arguments;
     private String result;
     private String message;
-    private JSONObject hitObject = new JSONObject();
+    private List<JSONObject> hitObject = new ArrayList<>();
     private List<JSONObject> objects = new ArrayList<>();
     private JSONObject status = new JSONObject();
 
@@ -60,7 +60,7 @@ public abstract class Command {
         this.message = message;
     }
 
-    public void setHitObject(JSONObject hitObject) {
+    public void setHitObject(List<JSONObject> hitObject) {
         this.hitObject = hitObject;
     }
 
