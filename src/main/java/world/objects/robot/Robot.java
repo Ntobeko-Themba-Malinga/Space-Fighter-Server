@@ -132,6 +132,7 @@ public abstract class Robot extends GameObject {
         properties.put("bottom_right_corner", List.of(getTopLeftCorner().getX(), getTopLeftCorner().getY()));
         properties.put("direction", direction);
         properties.put("position", List.of(getCenter().getX(), getCenter().getY()));
+        properties.put("type", GameObjectTypes.ROBOT);
         return properties;
     }
 

@@ -49,7 +49,6 @@ public class LaunchCommand extends Command {
 
     private void lookForAsteroid(IWorld world) {
         for (Asteroid asteroid : world.getMaze().getAsteroids()) {
-            System.out.println("\n" + asteroid.getGameObjectInfo().toString());
             gameObjects.add(asteroid.getGameObjectInfo());
         }
     }

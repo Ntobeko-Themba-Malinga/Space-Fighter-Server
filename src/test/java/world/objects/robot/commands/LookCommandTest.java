@@ -1,8 +1,5 @@
 package world.objects.robot.commands;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,14 +20,15 @@ class LookCommandTest {
     void setUp() {
         this.world = new World(new SimpleMaze(), new Position(-100, 100), new Position(100, -100));
         this.robot = RobotFactory.createRobot("TANK", new Position(0,0), IWorld.Direction.NORTH);
+        Robot robot2 = RobotFactory.createRobot("TANK", new Position(20,0), IWorld.Direction.WEST);
         this.world.addRobot("TestCrashDummy", this.robot);
+        this.world.addRobot("TestCrashDummy2", robot2);
     }
 
     @Test
-    void execute() throws JsonProcessingException {
-        JsonNode args = new ObjectMapper().readTree("[\"2\"]");
-        ForwardCommand forwardCommand = new ForwardCommand(args);
-        JSONObject results = new JSONObject(forwardCommand.execute(this.world, "TestCrashDummy"));
+    void execute() {
+        LookCommand lookCommand = new LookCommand();
+        JSONObject results = new JSONObject(lookCommand.execute(this.world, "TestCrashDummy"));
 
         assertEquals("OK", results.getString("result"));
         assertEquals("Done", results.getString("message"));
