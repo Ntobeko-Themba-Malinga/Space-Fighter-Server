@@ -56,7 +56,7 @@ public abstract class GameObject {
         boolean topEdgeBlocked = (pos1Y <= topX && topX <= pos2.getY())
                 && (topX <= pos1X && pos1X <= bottomX);
 
-        boolean bottomEdgeBlocked = (pos2Y <= bottomY && bottomY <= pos1Y)
+        boolean bottomEdgeBlocked = (pos1Y <= bottomY && bottomY <= pos2Y)
                 && (topX <= pos1X && pos1X <= bottomX);
 
         boolean leftEdgeBlocked = (pos1.getX() <= topX && topX < pos2X)

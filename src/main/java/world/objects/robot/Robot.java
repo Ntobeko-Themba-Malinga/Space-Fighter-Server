@@ -18,6 +18,7 @@ public abstract class Robot extends GameObject {
     private RobotState status;
     private int shield;
     private int shots;
+    private int hitDamage;
 
     public Robot(Position topLeftCorner, Position bottomRightCorner, IWorld.Direction direction) {
         super(topLeftCorner, bottomRightCorner, GameObjectTypes.ROBOT);
@@ -188,5 +189,13 @@ public abstract class Robot extends GameObject {
 
     public int getShots() {
         return shots;
+    }
+
+    public int getHitDamage() {
+        return hitDamage;
+    }
+
+    public void setHitDamage(int hitDamage) {
+        this.hitDamage = hitDamage;
     }
 }

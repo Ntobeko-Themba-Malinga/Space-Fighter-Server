@@ -17,5 +17,6 @@ public class TankRobot extends Robot {
         setMaxShield(10);
         setReloadTime(3);
         setBulletTravelDistance(20);
+        setHitDamage(2);
     }
 }

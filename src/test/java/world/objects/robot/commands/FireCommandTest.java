@@ -32,7 +32,7 @@ class FireCommandTest {
         JSONObject results = new JSONObject(lookCommand.execute(this.world, "TestCrashDummy"));
 
         assertEquals("OK", results.getString("result"));
-        assertEquals("Done", results.getString("message"));
+        assertEquals("Hit", results.getString("message"));
         assertEquals("NORMAL", results.getJSONObject("status").get("status"));
         assertEquals(10, results.getJSONObject("status").getInt("max_shield"));
         assertEquals(10, results.getJSONObject("status").getInt("shields"));
@@ -46,8 +46,8 @@ class FireCommandTest {
 
         for (Object object : hitObjects) {
             JSONObject hitRobot = (JSONObject) object;
-            assertEquals(0, hitRobot.getJSONObject("status").getJSONArray("position").getInt(0));
-            assertEquals(15, hitRobot.getJSONObject("status").getJSONArray("position").getInt(1));
+            assertEquals(0, hitRobot.getJSONArray("position").getInt(0));
+            assertEquals(15, hitRobot.getJSONArray("position").getInt(1));
         }
     }
 }

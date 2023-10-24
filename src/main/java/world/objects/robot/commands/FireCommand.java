@@ -2,14 +2,16 @@ package world.objects.robot.commands;
 
 import org.json.JSONObject;
 import world.IWorld;
+import world.objects.Asteroid;
+import world.objects.GameObject;
+import world.objects.GameObjectTypes;
 import world.objects.Position;
 import world.objects.robot.Robot;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class FireCommand extends Command {
-    private List<JSONObject> hitRobots = new ArrayList<>();
+    private final PriorityQueue<JSONObject> hitObjects = new PriorityQueue<>(Comparator.comparingInt(gameObject -> gameObject.getInt("distance")));
 
     private Position calculateBulletEnd(Robot robot, Position bulletStart, int bulletTravelDistance) {
         int startX = bulletStart.getX();
@@ -22,8 +24,50 @@ public class FireCommand extends Command {
         };
     }
 
-    private void determineHitRobots(IWorld world, Robot robot, Position bStart, Position bEnd) {
+    private int calculateDistance(Position robot, GameObject gameObject) {
+        int gObjectX = gameObject.getCenter().getX();
+        int gObjectY = gameObject.getCenter().getY();
+        int robotX = robot.getX();
+        int robotY = robot.getY();
 
+        int xDiff = Math.abs(gObjectX - robotX);
+        int yDiff = Math.abs(gObjectY - robotY);
+
+        if (xDiff == 0) return yDiff;
+        return xDiff;
+    }
+
+    private void determineHitRobots(IWorld world, Robot robot, Position bStart, Position bEnd) {
+        Map<String, Robot> worldRobots = world.getRobots();
+        for (String robotName : worldRobots.keySet()) {
+            Robot worldRobot = worldRobots.get(robotName);
+
+            if (worldRobot != robot && worldRobot.blocksPath(bStart, bEnd)) {
+                System.out.println("Robot");
+                JSONObject worldRobotProperties = worldRobot.getProperties();
+                worldRobotProperties.put("name", robotName);
+                worldRobotProperties.put("distance", calculateDistance(bStart, worldRobot));
+                hitObjects.offer(worldRobotProperties);
+            }
+        }
+    }
+
+    private void determineHitAsteroids(IWorld world, Position bStart, Position bEnd) {
+        for (Asteroid asteroid : world.getMaze().getAsteroids()) {
+            if (asteroid.blocksPath(bStart, bEnd)) {
+                JSONObject asteroidInfo = asteroid.getGameObjectInfo();
+                asteroidInfo.put("distance", calculateDistance(bStart, asteroid));
+                hitObjects.offer(asteroidInfo);
+            }
+        }
+    }
+
+    private JSONObject reduceHitRobotShield(IWorld world, String enemyRobotName, Robot robot) {
+        Robot enemyRobot = world.getRobot(enemyRobotName);
+        enemyRobot.takeDamage(robot.getHitDamage());
+        JSONObject enemyRobotProperties = enemyRobot.getProperties();
+        enemyRobotProperties.put("name", enemyRobotName);
+        return enemyRobotProperties;
     }
 
     @Override
@@ -32,14 +76,19 @@ public class FireCommand extends Command {
         Position bulletStart = world.getRobot(username).getCenter();
         Position bulletEnd = calculateBulletEnd(robot, bulletStart, robot.getBulletTravelDistance());
         determineHitRobots(world, robot, bulletStart, bulletEnd);
+        determineHitAsteroids(world, bulletStart, bulletEnd);
 
         setResult("OK");
-        if (hitRobots.isEmpty()) {
+        if (hitObjects.isEmpty()) {
             setMessage("Miss");
         } else {
             setMessage("Hit");
             setStatus(robot.getProperties());
-            setHitObject(hitRobots);
+            JSONObject hitObject = Objects.requireNonNull(hitObjects.poll());
+            if (hitObject.get("type").toString().equalsIgnoreCase(GameObjectTypes.ROBOT.toString()))
+                setHitObject(List.of(reduceHitRobotShield(world, hitObject.getString("name"), robot)));
+            else
+                setHitObject(new ArrayList<>());
         }
         return buildResponse();
     }
