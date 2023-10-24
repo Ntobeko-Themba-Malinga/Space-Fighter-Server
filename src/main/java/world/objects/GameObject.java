@@ -53,7 +53,7 @@ public abstract class GameObject {
         int pos2X = pos2.getX();
         int pos2Y = pos2.getY();
 
-        boolean topEdgeBlocked = (pos1Y <= topX && topX <= pos2.getY())
+        boolean topEdgeBlocked = (pos2Y <= topY && topY <= pos1Y)
                 && (topX <= pos1X && pos1X <= bottomX);
 
         boolean bottomEdgeBlocked = (pos1Y <= bottomY && bottomY <= pos2Y)
