@@ -73,22 +73,27 @@ public class FireCommand extends Command {
     @Override
     public String execute(IWorld world, String username) {
         Robot robot = world.getRobot(username);
-        Position bulletStart = world.getRobot(username).getCenter();
-        Position bulletEnd = calculateBulletEnd(robot, bulletStart, robot.getBulletTravelDistance());
-        determineHitRobots(world, robot, bulletStart, bulletEnd);
-        determineHitAsteroids(world, bulletStart, bulletEnd);
-
-        setResult("OK");
-        if (hitObjects.isEmpty()) {
-            setMessage("Miss");
+        if (!robot.fire()) {
+            setResult("OK");
+            setMessage("Out of ammo");
         } else {
-            setMessage("Hit");
-            setStatus(robot.getProperties());
-            JSONObject hitObject = Objects.requireNonNull(hitObjects.poll());
-            if (hitObject.get("type").toString().equalsIgnoreCase(GameObjectTypes.ROBOT.toString()))
-                setHitObject(List.of(reduceHitRobotShield(world, hitObject.getString("name"), robot)));
-            else
-                setHitObject(new ArrayList<>());
+            Position bulletStart = world.getRobot(username).getCenter();
+            Position bulletEnd = calculateBulletEnd(robot, bulletStart, robot.getBulletTravelDistance());
+            determineHitRobots(world, robot, bulletStart, bulletEnd);
+            determineHitAsteroids(world, bulletStart, bulletEnd);
+
+            setResult("OK");
+            if (hitObjects.isEmpty()) {
+                setMessage("Miss");
+            } else {
+                setMessage("Hit");
+                setStatus(robot.getProperties());
+                JSONObject hitObject = Objects.requireNonNull(hitObjects.poll());
+                if (hitObject.get("type").toString().equalsIgnoreCase(GameObjectTypes.ROBOT.toString()))
+                    setHitObject(List.of(reduceHitRobotShield(world, hitObject.getString("name"), robot)));
+                else
+                    setHitObject(new ArrayList<>());
+            }
         }
         return buildResponse();
     }

@@ -41,7 +41,7 @@ class FireCommandTest {
         assertEquals(10, results.getJSONObject("status").getInt("max_shield"));
         assertEquals(10, results.getJSONObject("status").getInt("shields"));
         assertEquals(3, results.getJSONObject("status").getInt("max_shots"));
-        assertEquals(3, results.getJSONObject("status").getInt("shots"));
+        assertEquals(2, results.getJSONObject("status").getInt("shots"));
         assertEquals(3, results.getJSONObject("status").getInt("reload"));
         assertEquals(20, results.getJSONObject("status").getInt("bullet_distance"));
         assertNotNull(results.getJSONObject("status").getJSONArray("top_left_corner"));

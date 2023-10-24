@@ -39,7 +39,6 @@ public abstract class Command {
     public abstract String execute(IWorld world, String username);
 
     public String buildResponse() {
-        System.out.println(hitObject);
         JSONObject response = new JSONObject();
         response.put("result", result);
         response.put("hit_object", hitObject);
