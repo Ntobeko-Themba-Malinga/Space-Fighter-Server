@@ -35,6 +35,6 @@ public class Session {
      * @param token The user unique token.
      */
     public static void logout(Context context, String token) {
-        context.sessionAttributeMap().remove(token);
+        context.req.getSession().invalidate();
     }
 }
