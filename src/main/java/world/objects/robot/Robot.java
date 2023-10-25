@@ -105,6 +105,10 @@ public abstract class Robot extends GameObject {
         return false;
     }
 
+    public void reload() {
+        this.shots = maxShots;
+    }
+
     /**
      * Reduces the robot's shield when it takes damage.
      * @param amountOfDamage The amount o

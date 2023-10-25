@@ -20,6 +20,7 @@ public class CommandFactory {
             case "turn" -> new TurnCommand(arguments);
             case "look" -> new LookCommand();
             case "fire" -> new FireCommand();
+            case "reload" -> new ReloadCommand();
             default -> throw new CommandNotFound(command + " " + arguments);
         };
     }
