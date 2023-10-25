@@ -33,11 +33,15 @@ public class LookCommand extends Command {
     public String execute(IWorld world, String username) {
         Robot robot = world.getRobot(username);
 
-        lookForRobots(world, username);
         setResult("OK");
         setMessage("Done");
-        setStatus(robot.getProperties());
-        setObjects(gameObjects);
+        if (robot == null) {
+            setMessage("Robot not found!");
+        } else {
+            lookForRobots(world, username);
+            setStatus(robot.getProperties());
+            setObjects(gameObjects);
+        }
         return buildResponse();
     }
 }

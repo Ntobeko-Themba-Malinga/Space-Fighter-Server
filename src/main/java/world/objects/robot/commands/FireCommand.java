@@ -95,6 +95,7 @@ public class FireCommand extends Command {
                     setHitObject(new ArrayList<>());
             }
         }
+        setStatus(robot.getProperties());
         return buildResponse();
     }
 }

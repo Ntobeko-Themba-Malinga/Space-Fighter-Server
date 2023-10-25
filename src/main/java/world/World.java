@@ -116,7 +116,8 @@ public class World implements IWorld {
 
     @Override
     public boolean removeRobot(String robotName) {
-        if (this.robots.containsKey(robotName)) {
+        robotName = robotName.toUpperCase();
+        if (this.robots.containsKey(robotName.toUpperCase())) {
             this.robots.remove(robotName);
             return true;
         }

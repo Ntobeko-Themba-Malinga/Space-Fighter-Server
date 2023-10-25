@@ -21,6 +21,7 @@ public class CommandFactory {
             case "look" -> new LookCommand();
             case "fire" -> new FireCommand();
             case "reload" -> new ReloadCommand();
+            case "quit" -> new QuitCommand();
             default -> throw new CommandNotFound(command + " " + arguments);
         };
     }

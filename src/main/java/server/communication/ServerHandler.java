@@ -131,6 +131,11 @@ public class ServerHandler {
             if (username != null) {
                 Session.logout(context, token.asText());
                 Objects.requireNonNull(ResponseFactory.create(Responses.USER_LOGOUT_SUCCESS)).message(context);
+                try {
+                    CommandFactory.create("quit", null).execute(world, username);
+                } catch (CommandNotFound e) {
+                    e.printStackTrace();
+                }
             } else {
                 Objects.requireNonNull(ResponseFactory.create(Responses.INVALID_USER)).message(context);
             }
