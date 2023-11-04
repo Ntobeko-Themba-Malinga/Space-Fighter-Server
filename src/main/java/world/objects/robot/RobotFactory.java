@@ -1,5 +1,7 @@
 package world.objects.robot;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import util.JsonFileReader;
 import world.IWorld;
 import world.objects.Position;
 
@@ -19,10 +21,17 @@ public class RobotFactory {
         int topY = position.getY() + halfRobotSize;
         int bottomX = position.getX() + halfRobotSize;
         int bottomY = position.getY() - halfRobotSize;
-        return switch (type) {
-            case "TANK" -> new TankRobot(new Position(topX, topY), new Position(bottomX, bottomY), direction);
-            default -> throw new IllegalStateException("Unexpected value: " + type);
-        };
+        Robot robot = new Robot(new Position(topX, topY), new Position(bottomX, bottomY), direction);
+
+        JsonNode robotProperties = JsonFileReader.read("robots.json").get(type);
+        if (robotProperties == null) throw new IllegalStateException("Unexpected value: " + type);
+
+        robot.setMaxShots(robotProperties.get("shots").asInt());
+        robot.setMaxShield(robotProperties.get("shield").asInt());
+        robot.setReloadTime(robotProperties.get("reload").asInt());
+        robot.setBulletTravelDistance(robotProperties.get("bullet_travel_distance").asInt());
+        robot.setHitDamage(robotProperties.get("damage").asInt());
+        return robot;
     }
 
     public static void setRobotSize(int robotSize) {

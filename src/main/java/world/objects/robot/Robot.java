@@ -8,7 +8,7 @@ import world.objects.Position;
 
 import java.util.List;
 
-public abstract class Robot extends GameObject {
+public class Robot extends GameObject {
     private int maxShots;
     private int maxShield;
     private int bulletTravelDistance;
