@@ -1,34 +1,30 @@
-<!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Space Fighter</title>
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout.html}">
+    <head></head>
     <body>
-        <main>
+        <div layout:fragment="contents">
             <div id="main-content">
                 <a href="" id="home-link"><h1>Register</h1></a>
                 <p>Create a token to use the Space Fighter API</p>
                 <div id="content">
                     <form id="create-form">
-                        <div>
-                            <label for="usernameInput">Username: </label>
-                            <input type="text" name="usernameInput" id="usernameInput">
+                        <div class="mb-3">
+                            <label for="usernameInput" class="form-label">Username: </label>
+                            <input type="email" class="form-control" id="usernameInput">
+                        </div>
+                        <div class="mb-3">
+                            <label for="passwordInput" class="form-label">Password: </label>
+                            <input type="password" class="form-control" id="passwordInput">
                         </div>
                         <div>
-                            <label for="passwordInput">Password: </label>
-                            <input type="password" name="passwordInput" id="passwordInput">
-                        </div>
-                        <div>
-                            <input type="submit" value="CREATE" >
+                            <input class="btn btn-dark" type="submit" value="CREATE" >
                         </div>
                     </form>
                 </div>
             </div>
-        </main>
-        <script src="/js/app.js"></script>
+        </div>
     </body>
 </html>
