@@ -7,22 +7,25 @@
     <body>
         <div layout:fragment="contents">
             <div id="main-content">
-                <a href="" id="home-link"><h1>Register</h1></a>
-                <p>Create a token to use the Space Fighter API</p>
-                <div id="content">
-                    <form id="create-form">
-                        <div class="mb-3">
-                            <label for="usernameInput" class="form-label">Username: </label>
-                            <input type="email" class="form-control" id="usernameInput">
-                        </div>
-                        <div class="mb-3">
-                            <label for="passwordInput" class="form-label">Password: </label>
-                            <input type="password" class="form-control" id="passwordInput">
-                        </div>
-                        <div>
-                            <input class="btn btn-dark" type="submit" value="CREATE" >
-                        </div>
-                    </form>
+                <div class="card text-bg-dark">
+                    <div class="card-header text-center">
+                        <a href="" id="home-link"><h1>Register</h1></a>
+                    </div>
+                    <div id="content" class="card-body">
+                        <form id="create-form">
+                            <div class="mb-3">
+                                <label for="usernameInput" class="form-label">Username: </label>
+                                <input type="text" class="form-control" id="usernameInput" placeholder="e.g NoobGamer">
+                            </div>
+                            <div class="mb-3">
+                                <label for="passwordInput" class="form-label">Password: </label>
+                                <input type="password" class="form-control" id="passwordInput" placeholder="PASSWORD...">
+                            </div>
+                            <div class="text-center">
+                                <input class="btn btn-outline-danger" type="submit" value="CREATE" >
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
