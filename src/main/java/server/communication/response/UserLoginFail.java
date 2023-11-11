@@ -12,7 +12,7 @@ public class UserLoginFail extends Response {
         ctx.contentType("application/json");
         ctx.status(HttpCode.OK);
         Map<String, Object> response = new HashMap<>();
-        response.put("result", "ok");
+        response.put("result", "error");
         response.put("message", "User not found!");
         ctx.json(response);
         return response;
