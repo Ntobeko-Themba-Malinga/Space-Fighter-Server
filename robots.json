@@ -1,16 +1,28 @@
 {
-  "TANK": {
-    "shots": 3,
-    "shield": 10,
-    "reload": 3,
-    "bullet_travel_distance": 20,
-    "damage": 2
-  },
-  "SNIPER": {
-    "shots": 1,
-    "shield": 3,
-    "reload": 6,
-    "bullet_travel_distance": 40,
-    "damage": 4
-  }
+  "types":[
+    {
+      "type": "NORMAL",
+      "shots": 3,
+      "shield": 3,
+      "reload": 3,
+      "bullet_travel_distance": 20,
+      "damage": 1
+    },
+    {
+      "type": "TANK",
+      "shots": 3,
+      "shield": 10,
+      "reload": 3,
+      "bullet_travel_distance": 20,
+      "damage": 2
+    },
+    {
+      "type": "SNIPER",
+      "shots": 1,
+      "shield": 3,
+      "reload": 6,
+      "bullet_travel_distance": 40,
+      "damage": 4
+    }
+  ]
 }

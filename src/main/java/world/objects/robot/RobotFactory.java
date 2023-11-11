@@ -23,8 +23,14 @@ public class RobotFactory {
         int bottomY = position.getY() - halfRobotSize;
         Robot robot = new Robot(new Position(topX, topY), new Position(bottomX, bottomY), direction);
 
-        JsonNode robotProperties = JsonFileReader.read("robots.json").get(type);
-        if (robotProperties == null) throw new IllegalStateException("Unexpected value: " + type);
+        JsonNode robotProperties = null;
+        JsonNode defaultRobotProperties = null;
+        for (JsonNode robot_ : JsonFileReader.read("robots.json").get("types")) {
+            if (robot_.get("type").asText().equalsIgnoreCase(type)) robotProperties = robot_;
+            if (robot_.get("type").asText().equalsIgnoreCase("NORMAL"))
+                defaultRobotProperties = robot_;
+        }
+        if (robotProperties == null) robotProperties = defaultRobotProperties;
 
         robot.setMaxShots(robotProperties.get("shots").asInt());
         robot.setMaxShield(robotProperties.get("shield").asInt());
