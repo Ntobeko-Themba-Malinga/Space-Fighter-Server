@@ -92,7 +92,7 @@ public class FireCommand extends Command {
                 if (hitObject.get("type").toString().equalsIgnoreCase(GameObjectTypes.ROBOT.toString()))
                     setHitObject(List.of(reduceHitRobotShield(world, hitObject.getString("name"), robot)));
                 else
-                    setHitObject(new ArrayList<>());
+                    setHitObject(List.of(hitObject));
             }
         }
         setStatus(robot.getProperties());
