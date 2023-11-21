@@ -134,7 +134,7 @@ public class Robot extends GameObject {
         properties.put("reload", reloadTime);
         properties.put("bullet_distance", bulletTravelDistance);
         properties.put("top_left_corner", List.of(getTopLeftCorner().getX(), getTopLeftCorner().getY()));
-        properties.put("bottom_right_corner", List.of(getTopLeftCorner().getX(), getTopLeftCorner().getY()));
+        properties.put("bottom_right_corner", List.of(getBottomRightCorner().getX(), getBottomRightCorner().getY()));
         properties.put("direction", direction);
         properties.put("position", List.of(getCenter().getX(), getCenter().getY()));
         properties.put("type", GameObjectTypes.ROBOT);

@@ -6,7 +6,7 @@ import world.IWorld;
 import world.objects.Position;
 
 public class RobotFactory {
-    private static int robotSize = 4;
+    private static int robotSize = 40;
 
     /**
      * Create a robot instance.

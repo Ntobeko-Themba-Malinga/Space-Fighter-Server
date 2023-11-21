@@ -70,8 +70,8 @@ public abstract class GameObject {
     }
 
     private void calculateCenter() {
-        int centerX = this.topLeftCorner.getX() + (this.bottomRightCorner.getX() - this.topLeftCorner.getX()) / 2;
-        int centerY = this.topLeftCorner.getY() - (this.topLeftCorner.getY() - this.bottomRightCorner.getY()) / 2;
+        int centerX = this.topLeftCorner.getX() + ((this.bottomRightCorner.getX() - this.topLeftCorner.getX()) / 2);
+        int centerY = this.topLeftCorner.getY() - ((this.topLeftCorner.getY() - this.bottomRightCorner.getY()) / 2);
         this.center = new Position(centerX, centerY);
     }
 

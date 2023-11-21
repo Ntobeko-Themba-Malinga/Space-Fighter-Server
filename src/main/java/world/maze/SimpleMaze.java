@@ -18,6 +18,7 @@ public class SimpleMaze implements IMaze {
         asteroids.add(new Asteroid(new Position(-10, 10), new Position(10, -10)));
         asteroids.add(new Asteroid(new Position(-1, 1), new Position(0, 0)));
         asteroids.add(new Asteroid(new Position(1, 0), new Position(2, -1)));
+        asteroids.add(new Asteroid(new Position(0, 150), new Position(50, 100)));
     }
 
     @Override
