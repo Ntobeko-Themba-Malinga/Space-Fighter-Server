@@ -53,10 +53,10 @@ public abstract class GameObject {
         int pos2X = pos2.getX();
         int pos2Y = pos2.getY();
 
-        boolean topEdgeBlocked = (pos1Y <= topX && topX <= pos2.getY())
+        boolean topEdgeBlocked = (pos2Y <= topY && topY <= pos1Y)
                 && (topX <= pos1X && pos1X <= bottomX);
 
-        boolean bottomEdgeBlocked = (pos2Y <= bottomY && bottomY <= pos1Y)
+        boolean bottomEdgeBlocked = (pos1Y <= bottomY && bottomY <= pos2Y)
                 && (topX <= pos1X && pos1X <= bottomX);
 
         boolean leftEdgeBlocked = (pos1.getX() <= topX && topX < pos2X)
@@ -70,9 +70,9 @@ public abstract class GameObject {
     }
 
     private void calculateCenter() {
-        int centerX = (this.bottomRightCorner.getX() - this.topLeftCorner.getX()) / 2;
-        int centerY = (this.topLeftCorner.getY() - this.bottomRightCorner.getY()) / 2;
-        this.center = new Position(centerX, centerX);
+        int centerX = this.topLeftCorner.getX() + ((this.bottomRightCorner.getX() - this.topLeftCorner.getX()) / 2);
+        int centerY = this.topLeftCorner.getY() - ((this.topLeftCorner.getY() - this.bottomRightCorner.getY()) / 2);
+        this.center = new Position(centerX, centerY);
     }
 
     /**
@@ -112,7 +112,7 @@ public abstract class GameObject {
     public JSONObject getGameObjectInfo() {
         JSONObject info = new JSONObject();
         info.put("type", type.toString());
-        info.put("position", center);
+        info.put("position", List.of(center.getX(), center.getY()));
         info.put("top_left_corner", List.of(topLeftCorner.getX(), topLeftCorner.getY()));
         info.put("bottom_right_corner", List.of(bottomRightCorner.getX(), bottomRightCorner.getY()));
         return info;

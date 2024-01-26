@@ -1,14 +1,17 @@
+body {
+ height: 100vh;
+ background-image: url("../img/background.png");
+ background-repeat: no-repeat;
+ background-color: #cccccc;
+ background-size: cover;
+}
+
 #main-content {
     width: 50%;
     margin: 0 auto;
-    margin-top: 6rem;
-    border: 2px solid black;
-    padding: 6rem;
+    margin-top: 3rem;
 }
 
-#content {
-    margin-top: 1rem;
-}
 
 #home-link {
     cursor: pointer;

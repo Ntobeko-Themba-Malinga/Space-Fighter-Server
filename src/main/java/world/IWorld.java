@@ -1,5 +1,6 @@
 package world;
 
+import org.json.JSONObject;
 import world.maze.IMaze;
 import world.objects.Position;
 import world.objects.robot.Robot;
@@ -52,4 +53,6 @@ public interface IWorld {
     public int getVisibility();
 
     public IMaze getMaze();
+
+    public JSONObject properties();
 }

@@ -1,10 +1,12 @@
 package world;
 
+import org.json.JSONObject;
 import world.maze.IMaze;
 import world.objects.Asteroid;
 import world.objects.Position;
 import world.objects.robot.Robot;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -114,7 +116,8 @@ public class World implements IWorld {
 
     @Override
     public boolean removeRobot(String robotName) {
-        if (this.robots.containsKey(robotName)) {
+        robotName = robotName.toUpperCase();
+        if (this.robots.containsKey(robotName.toUpperCase())) {
             this.robots.remove(robotName);
             return true;
         }
@@ -172,5 +175,14 @@ public class World implements IWorld {
     @Override
     public IMaze getMaze() {
         return maze;
+    }
+
+    @Override
+    public JSONObject properties() {
+        JSONObject worldProperties = new JSONObject();
+        worldProperties.put("topLeftCorner", List.of(getTopLeftCorner().getX(), getTopLeftCorner().getY()));
+        worldProperties.put("bottomRightCorner", List.of(getBottomRightCorner().getX(), getBottomRightCorner().getY()));
+        worldProperties.put("type", "WORLD");
+        return worldProperties;
     }
 }

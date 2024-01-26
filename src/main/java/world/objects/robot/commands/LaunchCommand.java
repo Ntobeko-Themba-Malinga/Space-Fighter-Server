@@ -1,19 +1,25 @@
 package world.objects.robot.commands;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.json.JSONObject;
 import world.IWorld;
+import world.objects.Asteroid;
 import world.objects.Position;
 import world.objects.robot.Robot;
 import world.objects.robot.RobotFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class LaunchCommand extends Command {
     private final Random random;
+    public List<JSONObject> gameObjects;
 
     public LaunchCommand(JsonNode arguments) {
         super(arguments);
         this.random = new Random();
+        this.gameObjects = new ArrayList<>();
     }
 
     private Position createRandomPosition(IWorld world) {
@@ -41,6 +47,16 @@ public class LaunchCommand extends Command {
         return directions[random.nextInt(directions.length)];
     }
 
+    private void lookForAsteroid(IWorld world) {
+        for (Asteroid asteroid : world.getMaze().getAsteroids()) {
+            gameObjects.add(asteroid.getGameObjectInfo());
+        }
+    }
+
+    private void addWorldProperties(IWorld world) {
+        gameObjects.add(world.properties());
+    }
+
     @Override
     public String execute(IWorld world, String username) {
         setResult("ERROR");
@@ -54,9 +70,12 @@ public class LaunchCommand extends Command {
             String robotType = getArguments().get(0).asText().toUpperCase();
             Robot robot = RobotFactory.createRobot(robotType, position, direction);
             world.addRobot(username, robot);
+            lookForAsteroid(world);
+            addWorldProperties(world);
             setResult("OK");
             setMessage("Robot successfully launched");
             setStatus(robot.getProperties());
+            setObjects(gameObjects);
         }
         return buildResponse();
     }

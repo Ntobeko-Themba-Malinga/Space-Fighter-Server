@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GameRequestResponse extends Response {
+    private ObjectMapper mapper = new ObjectMapper();
+
     @Override
     public Map<String, Object> message(Context ctx) {
         ctx.contentType("application/json");
@@ -18,7 +20,7 @@ public class GameRequestResponse extends Response {
         response.put("result", "ok");
         response.put("message", "Command executed");
         try {
-            response.put("data", new ObjectMapper().readTree(getData()));
+            response.put("data", mapper.readTree(getData()));
         } catch (JsonProcessingException e) {
             response.put("data", null);
         }

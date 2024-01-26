@@ -1,5 +1,6 @@
 package util;
 
+import org.json.JSONObject;
 import world.IWorld;
 import world.maze.IMaze;
 import world.objects.Position;
@@ -70,6 +71,11 @@ public class WorldAllowed implements IWorld {
 
     @Override
     public IMaze getMaze() {
+        return null;
+    }
+
+    @Override
+    public JSONObject properties() {
         return null;
     }
 }

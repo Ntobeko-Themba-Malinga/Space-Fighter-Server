@@ -1,6 +1,8 @@
 package world.objects;
 
 import org.junit.jupiter.api.Test;
+import world.IWorld;
+import world.objects.robot.RobotFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,6 +15,9 @@ class GameObjectTest {
         assertEquals(new Position(0, 2), gameObject.getTopLeftCorner());
         assertEquals(new Position(2, 0), gameObject.getBottomRightCorner());
         assertEquals(new Position(1, 1), gameObject.getCenter());
+
+        GameObject gameObject1 = RobotFactory.createRobot("TANK", new Position(-3, 6), IWorld.Direction.NORTH);
+        assertEquals(new Position(-3, 6), gameObject1.getCenter());
     }
 
     @Test

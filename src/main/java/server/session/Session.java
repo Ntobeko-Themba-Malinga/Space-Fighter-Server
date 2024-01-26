@@ -23,8 +23,6 @@ public class Session {
      * @return if user is logged in their username is returned else null.
      */
     public static String getSessionUsername(Context ctx, String token) {
-        System.out.println(ctx.sessionAttributeMap().keySet());
-        System.out.println((String) ctx.sessionAttributeMap().get(token));
         if (ctx.sessionAttributeMap().containsKey(token)) {
             return (String) ctx.sessionAttributeMap().get(token);
         }
@@ -37,6 +35,6 @@ public class Session {
      * @param token The user unique token.
      */
     public static void logout(Context context, String token) {
-        context.sessionAttributeMap().remove(token);
+        context.req.getSession().invalidate();
     }
 }

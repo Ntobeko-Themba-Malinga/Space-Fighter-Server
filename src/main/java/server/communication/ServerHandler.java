@@ -66,12 +66,9 @@ public class ServerHandler {
         JsonNode username = request.get("username");
         JsonNode password = request.get("password");
 
-        System.out.println("point 1");
         if (username == null || password == null) {
-            System.out.println("point 2");
             Objects.requireNonNull(ResponseFactory.create(Responses.BAD_REQUEST)).message(context);
         } else {
-            System.out.println("point 3");
             User user = userRepository.register(username.asText(), password.asText());
             userRegisterResponse(context, user);
         }
@@ -104,12 +101,9 @@ public class ServerHandler {
         JsonNode username = request.get("username");
         JsonNode password = request.get("password");
 
-        System.out.println("point 1");
         if (username == null || password == null) {
-            System.out.println("point 2");
             Objects.requireNonNull(ResponseFactory.create(Responses.BAD_REQUEST)).message(context);
         } else {
-            System.out.println("point 3");
             User user = userRepository.getUser(username.asText(), password.asText());
             userLoginResponse(context, user);
         }
@@ -131,6 +125,11 @@ public class ServerHandler {
             if (username != null) {
                 Session.logout(context, token.asText());
                 Objects.requireNonNull(ResponseFactory.create(Responses.USER_LOGOUT_SUCCESS)).message(context);
+                try {
+                    CommandFactory.create("quit", null).execute(world, username);
+                } catch (CommandNotFound e) {
+                    e.printStackTrace();
+                }
             } else {
                 Objects.requireNonNull(ResponseFactory.create(Responses.INVALID_USER)).message(context);
             }

@@ -8,7 +8,7 @@ import world.objects.Position;
 
 import java.util.List;
 
-public abstract class Robot extends GameObject {
+public class Robot extends GameObject {
     private int maxShots;
     private int maxShield;
     private int bulletTravelDistance;
@@ -18,6 +18,7 @@ public abstract class Robot extends GameObject {
     private RobotState status;
     private int shield;
     private int shots;
+    private int hitDamage;
 
     public Robot(Position topLeftCorner, Position bottomRightCorner, IWorld.Direction direction) {
         super(topLeftCorner, bottomRightCorner, GameObjectTypes.ROBOT);
@@ -41,10 +42,8 @@ public abstract class Robot extends GameObject {
         Position end = (axis) ? new Position(centerX, centerY + numSteps) :  new Position(centerX + numSteps, centerY);
 
         IWorld.PositionUpdate pathAllowed = world.isPathAllowed(this, start, end);
-        IWorld.PositionUpdate posAllowed = world.isPositionAllowed(end);
 
         if (!IWorld.PositionUpdate.ALLOWED.equals(pathAllowed)) return pathAllowed;
-        if (!IWorld.PositionUpdate.ALLOWED.equals(posAllowed)) return posAllowed;
 
         if (axis) {
             this.setTopLeftCorner(new Position(topX, topY + numSteps));
@@ -106,6 +105,10 @@ public abstract class Robot extends GameObject {
         return false;
     }
 
+    public void reload() {
+        this.shots = maxShots;
+    }
+
     /**
      * Reduces the robot's shield when it takes damage.
      * @param amountOfDamage The amount o
@@ -131,8 +134,10 @@ public abstract class Robot extends GameObject {
         properties.put("reload", reloadTime);
         properties.put("bullet_distance", bulletTravelDistance);
         properties.put("top_left_corner", List.of(getTopLeftCorner().getX(), getTopLeftCorner().getY()));
-        properties.put("bottom_right_corner", List.of(getTopLeftCorner().getX(), getTopLeftCorner().getY()));
+        properties.put("bottom_right_corner", List.of(getBottomRightCorner().getX(), getBottomRightCorner().getY()));
         properties.put("direction", direction);
+        properties.put("position", List.of(getCenter().getX(), getCenter().getY()));
+        properties.put("type", GameObjectTypes.ROBOT);
         return properties;
     }
 
@@ -188,5 +193,13 @@ public abstract class Robot extends GameObject {
 
     public int getShots() {
         return shots;
+    }
+
+    public int getHitDamage() {
+        return hitDamage;
+    }
+
+    public void setHitDamage(int hitDamage) {
+        this.hitDamage = hitDamage;
     }
 }
