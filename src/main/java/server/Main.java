@@ -10,6 +10,8 @@ import world.maze.IMaze;
 import world.maze.SimpleMaze;
 import world.objects.Position;
 
+import java.sql.SQLException;
+
 public class Main {
     public static void main(String[] args) {
         Position topLeftCorner = new Position(-200, 200);

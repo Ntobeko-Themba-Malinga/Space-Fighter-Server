@@ -4,7 +4,7 @@
         <class>server.model.User</class>
 
         <properties>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/test"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:http://localhost:8082"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
             <property name="jakarta.persistence.jdbc.user" value="sa"/>
             <property name="jakarta.persistence.jdbc.password" value=""/>

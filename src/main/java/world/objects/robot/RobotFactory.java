@@ -21,6 +21,7 @@ public class RobotFactory {
         int topY = position.getY() + halfRobotSize;
         int bottomX = position.getX() + halfRobotSize;
         int bottomY = position.getY() - halfRobotSize;
+
         Robot robot = new Robot(new Position(topX, topY), new Position(bottomX, bottomY), direction);
 
         JsonNode robotProperties = null;
