@@ -1,4 +1,5 @@
 # Space Fighter
+![Alt Text](Capture.PNG)
 
 ## API Documentation
 
